@@ -10,6 +10,8 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet var photoButton: NSButtonCell!
+    @IBOutlet var imageDisplay: NSImageCell!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +23,13 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
+    
+    @IBAction func photoButtonPressed(sender: AnyObject) {
+        let options = CGWindowListOption.optionOnScreenOnly
+        let imageCG = CGWindowListCreateImage(CGRect.infinite, options, kCGNullWindowID, CGWindowImageOption.nominalResolution)!
+        imageDisplay.image = NSImage.init(cgImage: imageCG, size: NSZeroSize)
+        
+    }
 
 }
 
