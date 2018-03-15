@@ -14,7 +14,7 @@ class ViewController: NSViewController {
     @IBOutlet var imageDisplay: NSImageCell!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        scheduledTimerWithTimeInterval()
         // Do any additional setup after loading the view.
     }
 
@@ -23,12 +23,20 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-    
-    @IBAction func photoButtonPressed(sender: AnyObject) {
-        let options = CGWindowListOption.optionOnScreenOnly
+    func scheduledTimerWithTimeInterval(){
+        // Scheduling timer to call the function "updatePhoto()" with the interval of 10 seconds
+        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ViewController.updatePhoto), userInfo: nil, repeats: true)
+        
+    }
+
+    func updatePhoto() {
+        let options =  CGWindowListOption(arrayLiteral: CGWindowListOption.excludeDesktopElements, CGWindowListOption.optionOnScreenOnly)
         let imageCG = CGWindowListCreateImage(CGRect.infinite, options, kCGNullWindowID, CGWindowImageOption.nominalResolution)!
         imageDisplay.image = NSImage.init(cgImage: imageCG, size: NSZeroSize)
-        
+    }
+    
+    @IBAction func photoButtonPressed(sender: AnyObject) {
+        updatePhoto()
     }
 
 }
