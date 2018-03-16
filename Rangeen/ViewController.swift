@@ -17,7 +17,7 @@ class ViewController: NSViewController {
     @IBOutlet var colorPickerTo: NSColorWell!
     
     // from TMReplaceColorHue
-    var defaultHue: Float = 205 // color of blue
+//    var defaultHue: Float = 205 // color of blue
     var hueRange: Float = 60 //hue angle that we want to replace
     
     override func viewDidLoad() {
@@ -54,7 +54,13 @@ class ViewController: NSViewController {
     // adapted from TMReplaceColorHue
     func filterImage(imageCG: CGImage) -> CGImage {
         let ciImage = CIImage(cgImage: imageCG)
+        
+        // get hue of colorPickerFrom
+        var ptrFrom:CGFloat = 0.0
+        colorPickerFrom.color.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
+        let defaultHue = Float(ptrFrom)*360.0
         let centerHueAngle: Float = defaultHue/360.0
+        // get hue of colorPickerTo
         var ptr:CGFloat = 0.0
         colorPickerTo.color.getHue(&ptr, saturation: nil, brightness: nil, alpha: nil)
         let destCenterHueAngle: Float = Float(ptr)
