@@ -17,7 +17,6 @@ class ViewController: NSViewController {
     @IBOutlet var colorPickerTo: NSColorWell!
     
     // from TMReplaceColorHue
-//    var defaultHue: Float = 205 // color of blue
     var hueRange: Float = 60 //hue angle that we want to replace
     
     override func viewDidLoad() {
@@ -52,7 +51,7 @@ class ViewController: NSViewController {
     }
   
     // adapted from TMReplaceColorHue
-    // TODO: factor out the colorCube stuff
+    // TODO: factor out the colorCube stuff so it doesn't re-happen every 10 sec unless colors changed
     func filterImage(imageCG: CGImage) -> CGImage {
         let ciImage = CIImage(cgImage: imageCG)
         
