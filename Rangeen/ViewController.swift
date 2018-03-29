@@ -35,7 +35,7 @@ class ViewController: NSViewController {
     
     // Scheduling timer to call the function "updatePhoto()" with the interval of 10 seconds
     func scheduledTimerWithTimeInterval(){
-        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ViewController.updatePhoto), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ViewController.updatePhoto), userInfo: nil, repeats: true)
     }
     
     // calls updatePhoto() when 'take photo' button is pressed
@@ -43,6 +43,14 @@ class ViewController: NSViewController {
         updatePhoto()
     }
     
+    // receive array of arrays of NSColors, of each group that looks the same
+    /*func handleSimilarColors(groups: [[NSColor]]) {
+        for colorGroup in groups {
+            for color in colorGroup {
+                
+            }
+        }
+    }*/
     // updates the photo displayed
     // TODO: figure out what to do for "options"
     func updatePhoto() {
