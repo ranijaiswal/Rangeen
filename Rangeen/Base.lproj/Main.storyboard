@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -684,7 +685,7 @@
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Rangeen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="490" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5mo-sQ-SBg">
                                 <rect key="frame" x="115" y="222" width="105" height="32"/>
@@ -738,16 +739,16 @@
                                 </constraints>
                                 <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AZA-a8-vb6">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="499" verticalCompressionResistancePriority="499" translatesAutoresizingMaskIntoConstraints="NO" id="AZA-a8-vb6">
                                 <rect key="frame" x="30" y="10" width="430" height="199"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="430" id="TJb-NJ-cVR"/>
+                                    <constraint firstAttribute="width" secondItem="AZA-a8-vb6" secondAttribute="height" multiplier="430:199" id="je8-Vf-tqZ"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="hXk-B1-fDk"/>
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="AZA-a8-vb6" firstAttribute="top" secondItem="dAd-mJ-rJs" secondAttribute="bottom" constant="8" id="6Jy-dn-QNa"/>
+                            <constraint firstItem="AZA-a8-vb6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="dAd-mJ-rJs" secondAttribute="bottom" constant="8" id="6Jy-dn-QNa"/>
                             <constraint firstItem="Dvp-pm-3qn" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="8Xb-vO-tzS"/>
                             <constraint firstItem="5mo-sQ-SBg" firstAttribute="leading" secondItem="Dvp-pm-3qn" secondAttribute="trailing" constant="20" id="DEk-Md-Pqp"/>
                             <constraint firstItem="9Qy-uQ-WAZ" firstAttribute="leading" secondItem="5mo-sQ-SBg" secondAttribute="trailing" constant="30" id="StY-hC-Sou"/>
@@ -759,7 +760,6 @@
                             <constraint firstItem="uI7-bQ-go4" firstAttribute="centerY" secondItem="dAd-mJ-rJs" secondAttribute="centerY" id="bgH-Sn-kzR"/>
                             <constraint firstItem="dAd-mJ-rJs" firstAttribute="centerY" secondItem="9Qy-uQ-WAZ" secondAttribute="centerY" id="d5D-EJ-PhP"/>
                             <constraint firstAttribute="trailing" secondItem="AZA-a8-vb6" secondAttribute="trailing" constant="30" id="mbf-fh-2Iu"/>
-                            <constraint firstItem="AZA-a8-vb6" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="pWA-gc-LTc"/>
                             <constraint firstItem="Dvp-pm-3qn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="tIf-ry-QFh"/>
                             <constraint firstItem="xjt-ly-QhR" firstAttribute="centerY" secondItem="uI7-bQ-go4" secondAttribute="centerY" id="tUr-hf-fwu"/>
                             <constraint firstItem="AZA-a8-vb6" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="30" id="xMc-p2-D4P"/>
