@@ -22,7 +22,7 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updatePhoto()
+        //updatePhoto()
         scheduledTimerWithTimeInterval()
         // Do any additional setup after loading the view.
     }
@@ -50,13 +50,28 @@ class ViewController: NSViewController {
                 
             }
         }
+     
     }*/
     // updates the photo displayed
-    // TODO: figure out what to do for "options"
+    // TODO: figure out how to get windows above too
     func updatePhoto() {
         updateColorCube()
-        let options =  CGWindowListOption(arrayLiteral: CGWindowListOption.excludeDesktopElements, CGWindowListOption.optionOnScreenOnly)
-        let imageOnScreen = CIImage(cgImage: CGWindowListCreateImage(CGRect.infinite, options, kCGNullWindowID, CGWindowImageOption.nominalResolution)!)
+        /*let windowsArray = CGWindowListCopyWindowInfo(CGWindowListOption.optionOnScreenOnly, kCGNullWindowID) as! [CFDictionary];
+        var arrayForCGImage: [CGWindowID] = []
+        let windowID = CGWindowID((self.view.window?.windowNumber)!)
+        for windowDict in windowsArray {
+            if let dict = windowDict as? [String: AnyObject] {
+                if (dict["kCGWindowNumber"] as! UInt32 != windowID) {
+                    arrayForCGImage.append(dict["kCGWindowNumber"] as! UInt32)
+                }
+            }
+        }
+        let array = arrayForCGImage as CFArray
+        let cgimg = CGImage(windowListFromArrayScreenBounds: CGRect.infinite, windowArray: array, imageOption: CGWindowImageOption.nominalResolution)!
+        let imageOnScreen = CIImage(cgImage: cgimg)*/
+
+        let options =  CGWindowListOption(arrayLiteral: CGWindowListOption.optionOnScreenBelowWindow)
+        let imageOnScreen = CIImage(cgImage: CGWindowListCreateImage(CGRect.infinite, options, CGWindowID((self.view.window?.windowNumber)!), CGWindowImageOption.nominalResolution)!)
         lastCubeFilter.setValue(imageOnScreen, forKey: kCIInputImageKey)
         let context = CIContext(options: nil)
         let filteredImage = lastCubeFilter.outputImage!
@@ -67,7 +82,6 @@ class ViewController: NSViewController {
     // if color preferences have changed, updates colorCubeFilter
     func updateColorCube() {
         if (lastColorFrom != colorPickerFrom.color || lastColorTo != colorPickerTo.color) {
-            print("HERE!")
             // get hue of colorPickerFrom
             var ptrFrom:CGFloat = 0.0
             colorPickerFrom.color.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
