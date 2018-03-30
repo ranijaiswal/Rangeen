@@ -13,10 +13,25 @@ class ViewController: NSViewController {
 
     @IBOutlet var photoButton: NSButtonCell!
     @IBOutlet var imageDisplay: NSImageCell!
+    @IBOutlet var timerSecPicker: NSPopUpButton!
+    var timerDict = [String:Double]()
+    var currentTimer: Timer!
     override func viewDidLoad() {
         super.viewDidLoad()
         //updatePhoto()
-        scheduledTimerWithTimeInterval()
+        timerSecPicker.removeAllItems()
+        timerSecPicker.addItem(withTitle: "1 sec")
+        timerSecPicker.addItem(withTitle: "10 sec")
+        timerSecPicker.addItem(withTitle: "30 sec")
+        timerSecPicker.addItem(withTitle: "60 sec")
+        timerSecPicker.addItem(withTitle: "Never")
+        timerSecPicker.selectItem(withTitle: "10 sec")
+        timerDict["1 sec"] = 1.0
+        timerDict["10 sec"] = 10.0
+        timerDict["30 sec"] = 30.0
+        timerDict["60 sec"] = 60.0
+        timerDict["Never"] = Double.infinity
+        scheduledTimerWithTimeInterval(timeInSeconds: (timerSecPicker.selectedItem?.title)!)
         // Do any additional setup after loading the view.
     }
 
@@ -26,9 +41,17 @@ class ViewController: NSViewController {
         }
     }
     
-    // Scheduling timer to call the function "updatePhoto()" with the interval of 10 seconds
-    func scheduledTimerWithTimeInterval(){
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ViewController.updatePhoto), userInfo: nil, repeats: true)
+    @IBAction func timerSecChanged(sender: AnyObject) {
+        let selection = sender as! NSPopUpButton
+        let time = (selection.selectedItem?.title)!
+        currentTimer.invalidate()
+        scheduledTimerWithTimeInterval(timeInSeconds: time)
+    }
+    
+    // Scheduling timer to call the function "updatePhoto()" with the given interval
+    func scheduledTimerWithTimeInterval(timeInSeconds: String){
+        let time = timerDict[timeInSeconds]
+        currentTimer = Timer.scheduledTimer(timeInterval: time!, target: self, selector: #selector(ViewController.updatePhoto), userInfo: nil, repeats: true)
     }
     
     // calls updatePhoto() when 'take photo' button is pressed

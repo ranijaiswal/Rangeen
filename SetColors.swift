@@ -8,18 +8,37 @@
 
 import Cocoa
 
-class SetColors: NSViewController {
+class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet var colorPickerFrom: NSColorWell!
     @IBOutlet var colorPickerTo: NSColorWell!
     @IBOutlet var saveButton: NSButton!
+    @IBOutlet var tableView: NSTableView!
     var lastColorFrom: NSColor!
     var lastColorTo: NSColor!
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
-
+    var colorReplacements = [Int:[NSColor:NSColor]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         // Do view setup here.
+    }
+    @IBAction func cellFromEdited(sender: AnyObject) {
+        let well = sender as! NSColorWell
+        colorPickerFrom = well
+    }
+    @IBAction func cellToEdited(sender: AnyObject) {
+        let well = sender as! NSColorWell
+        colorPickerTo = well
+
+    }
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return 3
+    }
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        return 1
     }
     
     @IBAction func saveButtonPressed(sender: AnyObject) {

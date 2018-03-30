@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1969FB62206E22BD00337C81 /* CustomTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969FB61206E22BD00337C81 /* CustomTableCellView.swift */; };
+		1969FB64206E365000337C81 /* PickColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969FB63206E365000337C81 /* PickColors.swift */; };
 		19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19878E27206DC0BA0056FE4E /* SetColors.swift */; };
 		19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */; };
 		19B36B6E2058D03C00AC95C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B6D2058D03C00AC95C8 /* ViewController.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1969FB61206E22BD00337C81 /* CustomTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableCellView.swift; sourceTree = "<group>"; };
+		1969FB63206E365000337C81 /* PickColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickColors.swift; sourceTree = "<group>"; };
 		19878E27206DC0BA0056FE4E /* SetColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetColors.swift; path = ../SetColors.swift; sourceTree = "<group>"; };
 		19B36B682058D03C00AC95C8 /* Rangeen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rangeen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */,
 				19878E27206DC0BA0056FE4E /* SetColors.swift */,
 				19B36B6D2058D03C00AC95C8 /* ViewController.swift */,
+				1969FB63206E365000337C81 /* PickColors.swift */,
+				1969FB61206E22BD00337C81 /* CustomTableCellView.swift */,
 				19B36B6F2058D03C00AC95C8 /* Assets.xcassets */,
 				19B36B712058D03C00AC95C8 /* Main.storyboard */,
 				19B36B742058D03C00AC95C8 /* Info.plist */,
@@ -260,6 +266,8 @@
 			files = (
 				19B36B6E2058D03C00AC95C8 /* ViewController.swift in Sources */,
 				19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */,
+				1969FB64206E365000337C81 /* PickColors.swift in Sources */,
+				1969FB62206E22BD00337C81 /* CustomTableCellView.swift in Sources */,
 				19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
