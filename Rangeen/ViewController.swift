@@ -86,20 +86,18 @@ class ViewController: NSViewController {
         let fromDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
         let toDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
         
-        for index in 1...3 {
+        
+        for index in 0...fromDict!.count {
             let colorFrom = fromDict?[String(index)] as! NSColor
             let colorTo = toDict?[String(index)] as! NSColor
             let filter = updateColorCube(colorFrom: colorFrom, colorTo: colorTo)
+            filter.setValue(img, forKey: kCIInputImageKey)
+            let filteredImage = filter.outputImage!
+            img = filteredImage
         }
-            // build filter with new color combination
-            // pass image through filter
-            // update img
-        }
-
-        lastCubeFilter?.setValue(img, forKey: kCIInputImageKey)
-        let filteredImage = lastCubeFilter?.outputImage!
+        
         let context = CIContext(options: nil)
-        let finalImage = context.createCGImage(filteredImage!, from: (filteredImage?.extent)!)
+        let finalImage = context.createCGImage(img, from: (img.extent))
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     

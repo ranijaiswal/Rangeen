@@ -25,16 +25,20 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
         // Do view setup here.
     }
-    @IBAction func cellFromEdited(sender: AnyObject) {
-        let well = sender as! NSColorWell
+    
+    // when cell is edited, updates in defaults
+    @IBAction func cellFromEdited(sender: NSColorWell) {
+        let well = sender
         let index = tableView.selectedRow
         let colorFrom = well.color
         var currentDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
         currentDict?[String(index)] = colorFrom
-        UserDefaults.standard.set(currentDict, forKey: "colorReplacementFrom")
+        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict) as NSData?
+        UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
+        UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
     }
-    @IBAction func cellToEdited(sender: AnyObject) {
-        let well = sender as! NSColorWell
+    @IBAction func cellToEdited(sender: NSColorWell) {
+        let well = sender
         let index = tableView.selectedRow
         let colorTo = well.color
         var currentDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
@@ -49,8 +53,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     @IBAction func saveButtonPressed(sender: AnyObject) {
-        // update defaults
-        //updateColorCube(colorFrom: colorPickerFrom.color, colorTo: colorPickerTo.color)
         dismissViewController(self)
     }
 }
