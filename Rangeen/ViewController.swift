@@ -87,18 +87,15 @@ class ViewController: NSViewController {
         let toDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
         
         for index in 1...3 {
-            let colorFrom = fromDict?[String(index)]
-            let colorTo = toDict?[String(index)]
-            
+            let colorFrom = fromDict?[String(index)] as! NSColor
+            let colorTo = toDict?[String(index)] as! NSColor
+            let filter = updateColorCube(colorFrom: colorFrom, colorTo: colorTo)
         }
-        for _ in UserDefaults.standard.dictionaryRepresentation() {
             // build filter with new color combination
             // pass image through filter
             // update img
         }
 
-        let lastCubeFilterData = UserDefaults.standard.data(forKey: "lastCubeFilter")
-        let lastCubeFilter = NSKeyedUnarchiver.unarchiveObject(with: lastCubeFilterData!) as? CIFilter
         lastCubeFilter?.setValue(img, forKey: kCIInputImageKey)
         let filteredImage = lastCubeFilter?.outputImage!
         let context = CIContext(options: nil)
@@ -107,7 +104,7 @@ class ViewController: NSViewController {
     }
     
     // if color preferences have changed, updates colorCubeFilter
-    func updateColorCube(colorFrom: NSColor, colorTo: NSColor) {
+    func updateColorCube(colorFrom: NSColor, colorTo: NSColor) -> CIFilter {
         
         var ptrFrom:CGFloat = 0.0
         colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
@@ -154,10 +151,7 @@ class ViewController: NSViewController {
         let colorCube = CIFilter(name: "CIColorCube")!
         colorCube.setValue(size, forKey: "inputCubeDimension")
         colorCube.setValue(data, forKey: "inputCubeData")
-        
-        let colorCubeData = NSKeyedArchiver.archivedData(withRootObject: colorCube) as NSData?
-        UserDefaults.standard.set(colorCubeData, forKey: "lastCubeFilter")
-        UserDefaults.standard.synchronize()
+        return colorCube
     }
     
     func HSVtoRGB(_ h : Float, s : Float, v : Float) -> (r : Float, g : Float, b : Float) {
