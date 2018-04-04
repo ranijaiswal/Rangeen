@@ -10,8 +10,6 @@ import Cocoa
 
 class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
-    @IBOutlet var colorPickerFrom: NSColorWell!
-    @IBOutlet var colorPickerTo: NSColorWell!
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var tableView: NSTableView!
     var colorReplacementFrom = [Int:NSColor]()
