@@ -60,29 +60,30 @@ class ViewController: NSViewController {
         updatePhoto()
     }
 
-    // updates the photo displayed
-    // TODO: figure out how to get windows above too
-    func updatePhoto() {
-        // take screenshot of all windows except Rangeen application
+    // take screenshot of all windows except Rangeen application
+    func getScreenshot() -> CIImage {
         let windowsArray = CGWindowListCopyWindowInfo(CGWindowListOption.optionOnScreenOnly, kCGNullWindowID) as! [CFDictionary];
-         var arrayForCGImage: [CGWindowID] = []
-         let windowID = CGWindowID((self.view.window?.windowNumber)!)
-         for windowDict in windowsArray {
+        var arrayForCGImage: [CGWindowID] = []
+        let windowID = CGWindowID((self.view.window?.windowNumber)!)
+        for windowDict in windowsArray {
             if let dict = windowDict as? [String: AnyObject] {
                 if (dict["kCGWindowNumber"] as! UInt32 != windowID) {
                     arrayForCGImage.append(dict["kCGWindowNumber"] as! UInt32)
                 }
             }
-         }
+        }
         let pointer = UnsafeMutablePointer<UnsafeRawPointer?>.allocate(capacity: arrayForCGImage.count)
         for (index, window) in arrayForCGImage.enumerated() {
             pointer[index] = UnsafeRawPointer(bitPattern: UInt(window))
         }
         let array: CFArray = CFArrayCreate(kCFAllocatorDefault, pointer, arrayForCGImage.count, nil)
         let cgimg = CGImage(windowListFromArrayScreenBounds: CGRect.infinite, windowArray: array, imageOption: [])!
-        let imageOnScreen = CIImage(cgImage: cgimg)
-
-        var img: CIImage = imageOnScreen
+        return CIImage(cgImage: cgimg)
+    }
+    
+    // updates the photo displayed
+    func updatePhoto() {
+        var img: CIImage = getScreenshot()
         /*let fromDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
         let toDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
         
