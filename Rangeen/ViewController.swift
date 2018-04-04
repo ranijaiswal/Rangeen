@@ -20,6 +20,17 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //updatePhoto()
+        configureTimer()
+        // Do any additional setup after loading the view.
+    }
+
+    override var representedObject: Any? {
+        didSet {
+        // Update the view, if already loaded.
+        }
+    }
+    
+    func configureTimer() {
         timerSecPicker.removeAllItems()
         timerSecPicker.addItem(withTitle: "1 sec")
         timerSecPicker.addItem(withTitle: "10 sec")
@@ -33,15 +44,7 @@ class ViewController: NSViewController {
         timerDict["60 sec"] = 60.0
         timerDict["Never"] = Double.infinity
         scheduledTimerWithTimeInterval(timeInSeconds: (timerSecPicker.selectedItem?.title)!)
-        // Do any additional setup after loading the view.
     }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
-    
     @IBAction func timerSecChanged(sender: AnyObject) {
         let selection = sender as! NSPopUpButton
         let time = (selection.selectedItem?.title)!
