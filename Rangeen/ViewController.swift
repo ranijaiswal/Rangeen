@@ -63,31 +63,27 @@ class ViewController: NSViewController {
     // updates the photo displayed
     // TODO: figure out how to get windows above too
     func updatePhoto() {
-        // take screenshot DOESN'T WORK ABOVE WINDOWS :'(
-        /*let windowsArray = CGWindowListCopyWindowInfo(CGWindowListOption.optionOnScreenOnly, kCGNullWindowID) as! [CFDictionary];
+        // take screenshot of all windows except Rangeen application
+        let windowsArray = CGWindowListCopyWindowInfo(CGWindowListOption.optionOnScreenOnly, kCGNullWindowID) as! [CFDictionary];
          var arrayForCGImage: [CGWindowID] = []
          let windowID = CGWindowID((self.view.window?.windowNumber)!)
          for windowDict in windowsArray {
-         if let dict = windowDict as? [String: AnyObject] {
-         if (dict["kCGWindowNumber"] as! UInt32 != windowID) {
-         arrayForCGImage.append(dict["kCGWindowNumber"] as! UInt32)
+            if let dict = windowDict as? [String: AnyObject] {
+                if (dict["kCGWindowNumber"] as! UInt32 != windowID) {
+                    arrayForCGImage.append(dict["kCGWindowNumber"] as! UInt32)
+                }
+            }
          }
-         }
-         }
-         let array = arrayForCGImage as CFArray
-         let cgimg = CGImage(windowListFromArrayScreenBounds: CGRect.infinite, windowArray: array, imageOption: CGWindowImageOption.nominalResolution)!
-         let imageOnScreen = CIImage(cgImage: cgimg)*/
-        
-        // working screenshot for windows below
-        let options =  CGWindowListOption(arrayLiteral: CGWindowListOption.optionOnScreenBelowWindow)
-        let imageOnScreen = CIImage(cgImage: CGWindowListCreateImage(CGRect.infinite, options, CGWindowID((self.view.window?.windowNumber)!), CGWindowImageOption.nominalResolution)!)
-        let context = CIContext(options: nil)
-        let finalImage = context.createCGImage(imageOnScreen, from: (imageOnScreen.extent))
-        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
-        
+        let pointer = UnsafeMutablePointer<UnsafeRawPointer?>.allocate(capacity: arrayForCGImage.count)
+        for (index, window) in arrayForCGImage.enumerated() {
+            pointer[index] = UnsafeRawPointer(bitPattern: UInt(window))
+        }
+        let array: CFArray = CFArrayCreate(kCFAllocatorDefault, pointer, arrayForCGImage.count, nil)
+        let cgimg = CGImage(windowListFromArrayScreenBounds: CGRect.infinite, windowArray: array, imageOption: [])!
+        let imageOnScreen = CIImage(cgImage: cgimg)
 
-        /*var img: CIImage = imageOnScreen
-        let fromDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
+        var img: CIImage = imageOnScreen
+        /*let fromDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
         let toDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
         
         
@@ -98,11 +94,11 @@ class ViewController: NSViewController {
             filter.setValue(img, forKey: kCIInputImageKey)
             let filteredImage = filter.outputImage!
             img = filteredImage
-        }
+        }*/
         
         let context = CIContext(options: nil)
         let finalImage = context.createCGImage(img, from: (img.extent))
-        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)*/
+        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     
     // if color preferences have changed, updates colorCubeFilter
