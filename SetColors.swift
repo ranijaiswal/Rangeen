@@ -20,8 +20,10 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        UserDefaults.standard.set(colorReplacementFrom, forKey: "colorReplacementFrom")
-        UserDefaults.standard.set(colorReplacementTo, forKey: "colorReplacementTo")
+        let fromData = NSKeyedArchiver.archivedData(withRootObject: colorReplacementFrom) as NSData?
+        let toData = NSKeyedArchiver.archivedData(withRootObject: colorReplacementTo) as NSData?
+        UserDefaults.standard.set(fromData, forKey: "colorReplacementFrom")
+        UserDefaults.standard.set(toData, forKey: "colorReplacementTo")
 
         // Do view setup here.
     }

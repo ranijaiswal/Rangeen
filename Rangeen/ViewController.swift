@@ -90,15 +90,16 @@ class ViewController: NSViewController {
         let toDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")
         let toDict = NSKeyedUnarchiver.unarchiveObject(with: toDictData!) as? [Int:NSColor]
 
-        for index in 0...fromDict!.count {
-            let colorFrom = fromDict?[index]
-            let colorTo = toDict?[index]
-            let filter = updateColorCube(colorFrom: colorFrom!, colorTo: colorTo!)
-            filter.setValue(img, forKey: kCIInputImageKey)
-            let filteredImage = filter.outputImage!
-            img = filteredImage
+        if fromDict!.count > 0 {
+            for index in 0...(fromDict!.count - 1) {
+                let colorFrom = fromDict?[index]
+                let colorTo = toDict?[index]
+                let filter = updateColorCube(colorFrom: colorFrom!, colorTo: colorTo!)
+                filter.setValue(img, forKey: kCIInputImageKey)
+                let filteredImage = filter.outputImage!
+                img = filteredImage
+            }
         }
-        
         let context = CIContext(options: nil)
         let finalImage = context.createCGImage(img, from: (img.extent))
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
