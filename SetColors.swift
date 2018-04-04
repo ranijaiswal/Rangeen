@@ -30,24 +30,28 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBAction func cellFromEdited(sender: NSColorWell) {
         let well = sender
         let index = tableView.selectedRow
-        let colorFrom = well.color
-        let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom")!
-        var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
-        currentDict![index] = colorFrom
-        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
-        UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
-        UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
+        if index >= 0 {
+            let colorFrom = well.color
+            let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom")!
+            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
+            currentDict![index] = colorFrom
+            let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
+            UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
+            UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
+        }
     }
     @IBAction func cellToEdited(sender: NSColorWell) {
         let well = sender
         let index = tableView.selectedRow
-        let colorTo = well.color
-        let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")!
-        var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
-        currentDict![index] = colorTo
-        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
-        UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
-        UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
+        if index >= 0 {
+            let colorTo = well.color
+            let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")!
+            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
+            currentDict![index] = colorTo
+            let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
+            UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
+            UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
+        }
     }
     func numberOfRows(in tableView: NSTableView) -> Int {
         return 3
