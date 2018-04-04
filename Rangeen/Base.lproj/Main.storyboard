@@ -684,11 +684,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Rangeen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="490" height="313"/>
+                        <rect key="frame" x="0.0" y="0.0" width="490" height="312"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5mo-sQ-SBg">
-                                <rect key="frame" x="115" y="265" width="105" height="32"/>
+                                <rect key="frame" x="115" y="264" width="105" height="32"/>
                                 <buttonCell key="cell" type="push" title="take photo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0sF-C4-iLJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -698,7 +698,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dvp-pm-3qn">
-                                <rect key="frame" x="6" y="265" width="101" height="32"/>
+                                <rect key="frame" x="6" y="264" width="101" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set colors" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pY7-a0-n0r">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -707,15 +707,8 @@
                                     <segue destination="DEB-cB-XZZ" kind="popover" popoverAnchorView="Dvp-pm-3qn" popoverBehavior="t" preferredEdge="maxY" id="sPZ-Mh-LxI"/>
                                 </connections>
                             </button>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="499" verticalCompressionResistancePriority="499" translatesAutoresizingMaskIntoConstraints="NO" id="AZA-a8-vb6">
-                                <rect key="frame" x="30" y="10" width="430" height="242"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="AZA-a8-vb6" secondAttribute="height" multiplier="16:9" id="je8-Vf-tqZ"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="hXk-B1-fDk"/>
-                            </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NwW-8W-kiX">
-                                <rect key="frame" x="349" y="265" width="109" height="32"/>
+                                <rect key="frame" x="349" y="264" width="109" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Pick Colors" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YXb-Ee-jBM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -726,7 +719,7 @@
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZfS-8c-tCA">
-                                <rect key="frame" x="249" y="269" width="76" height="26"/>
+                                <rect key="frame" x="249" y="268" width="76" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="G5y-aW-P4q" id="vce-8R-1sY">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -743,16 +736,24 @@
                                     <action selector="timerSecChangedWithSender:" target="XfG-lQ-9wD" id="HxA-uk-kFN"/>
                                 </connections>
                             </popUpButton>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="499" verticalCompressionResistancePriority="499" translatesAutoresizingMaskIntoConstraints="NO" id="AZA-a8-vb6">
+                                <rect key="frame" x="12" y="10" width="438" height="241"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="430" id="I8E-6G-WPP"/>
+                                    <constraint firstAttribute="width" secondItem="AZA-a8-vb6" secondAttribute="height" multiplier="16:9" constant="10" id="je8-Vf-tqZ"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="hXk-B1-fDk"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Dvp-pm-3qn" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="8Xb-vO-tzS"/>
                             <constraint firstItem="5mo-sQ-SBg" firstAttribute="leading" secondItem="Dvp-pm-3qn" secondAttribute="trailing" constant="20" id="DEk-Md-Pqp"/>
-                            <constraint firstItem="AZA-a8-vb6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5mo-sQ-SBg" secondAttribute="bottom" constant="20" id="FH9-uT-fem"/>
+                            <constraint firstItem="AZA-a8-vb6" firstAttribute="top" secondItem="5mo-sQ-SBg" secondAttribute="bottom" constant="20" id="FH9-uT-fem"/>
                             <constraint firstItem="5mo-sQ-SBg" firstAttribute="centerY" secondItem="Dvp-pm-3qn" secondAttribute="centerY" id="XHj-Pi-gqE"/>
                             <constraint firstAttribute="bottom" secondItem="AZA-a8-vb6" secondAttribute="bottom" constant="10" id="aXu-3i-US4"/>
-                            <constraint firstAttribute="trailing" secondItem="AZA-a8-vb6" secondAttribute="trailing" constant="30" id="mbf-fh-2Iu"/>
+                            <constraint firstAttribute="trailing" secondItem="AZA-a8-vb6" secondAttribute="trailing" constant="40" id="mbf-fh-2Iu"/>
                             <constraint firstItem="Dvp-pm-3qn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="tIf-ry-QFh"/>
-                            <constraint firstItem="AZA-a8-vb6" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="30" id="xMc-p2-D4P"/>
+                            <constraint firstItem="AZA-a8-vb6" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="xMc-p2-D4P"/>
                         </constraints>
                     </view>
                     <connections>
@@ -914,7 +915,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="M4j-ey-8HY">
-                                    <rect key="frame" x="1" y="197" width="454" height="16"/>
+                                    <rect key="frame" x="1" y="7" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Am8-nb-ARe">
