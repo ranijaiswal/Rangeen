@@ -31,9 +31,10 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let well = sender
         let index = tableView.selectedRow
         let colorFrom = well.color
-        var currentDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
-        currentDict?[String(index)] = colorFrom
-        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict) as NSData?
+        let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom")!
+        var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
+        currentDict![index] = colorFrom
+        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
         UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
         UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
     }
@@ -41,9 +42,12 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let well = sender
         let index = tableView.selectedRow
         let colorTo = well.color
-        var currentDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
-        currentDict?[String(index)] = colorTo
-        UserDefaults.standard.set(currentDict, forKey: "colorReplacementTo")
+        let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")!
+        var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
+        currentDict![index] = colorTo
+        let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
+        UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
+        UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
     }
     func numberOfRows(in tableView: NSTableView) -> Int {
         return 3
