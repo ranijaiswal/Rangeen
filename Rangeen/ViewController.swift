@@ -81,8 +81,12 @@ class ViewController: NSViewController {
         // working screenshot for windows below
         let options =  CGWindowListOption(arrayLiteral: CGWindowListOption.optionOnScreenBelowWindow)
         let imageOnScreen = CIImage(cgImage: CGWindowListCreateImage(CGRect.infinite, options, CGWindowID((self.view.window?.windowNumber)!), CGWindowImageOption.nominalResolution)!)
+        let context = CIContext(options: nil)
+        let finalImage = context.createCGImage(imageOnScreen, from: (imageOnScreen.extent))
+        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
+        
 
-        var img: CIImage = imageOnScreen
+        /*var img: CIImage = imageOnScreen
         let fromDict = UserDefaults.standard.dictionary(forKey: "colorReplacementFrom")
         let toDict = UserDefaults.standard.dictionary(forKey: "colorReplacementTo")
         
@@ -98,7 +102,7 @@ class ViewController: NSViewController {
         
         let context = CIContext(options: nil)
         let finalImage = context.createCGImage(img, from: (img.extent))
-        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
+        imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)*/
     }
     
     // if color preferences have changed, updates colorCubeFilter
