@@ -813,28 +813,6 @@
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                    <prototypeCellViews>
-                                                        <tableCellView id="lIC-wh-9Qq" customClass="CustomTableCellView" customModule="Rangeen" customModuleProvider="target">
-                                                            <rect key="frame" x="1" y="1" width="172" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o9p-eC-XlJ">
-                                                                    <rect key="frame" x="0.0" y="-39" width="116" height="96"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <subviews>
-                                                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gPt-h8-LH5">
-                                                                            <rect key="frame" x="14" y="36" width="44" height="23"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                            <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <connections>
-                                                                                <action selector="cellFromEditedWithSender:" target="DEB-cB-XZZ" id="9CW-Gh-nmz"/>
-                                                                            </connections>
-                                                                        </colorWell>
-                                                                    </subviews>
-                                                                </customView>
-                                                            </subviews>
-                                                        </tableCellView>
-                                                    </prototypeCellViews>
                                                 </tableColumn>
                                                 <tableColumn width="276" minWidth="40" maxWidth="1000" id="2Sj-cq-QJR">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="To">
@@ -848,28 +826,6 @@
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                    <prototypeCellViews>
-                                                        <tableCellView id="ueT-eC-8hN" customClass="CustomTableCellView" customModule="Rangeen" customModuleProvider="target">
-                                                            <rect key="frame" x="176" y="1" width="276" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fJB-fO-zsH">
-                                                                    <rect key="frame" x="84" y="-39" width="163" height="96"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <subviews>
-                                                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ylz-Ir-5Bi">
-                                                                            <rect key="frame" x="59" y="37" width="44" height="23"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                            <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <connections>
-                                                                                <action selector="cellToEditedWithSender:" target="DEB-cB-XZZ" id="tXP-cP-E26"/>
-                                                                            </connections>
-                                                                        </colorWell>
-                                                                    </subviews>
-                                                                </customView>
-                                                            </subviews>
-                                                        </tableCellView>
-                                                    </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
                                         </tableView>

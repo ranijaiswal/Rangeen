@@ -56,8 +56,11 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return 3
     }
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return 1
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let well = NSColorWell()
+        let view = NSView()
+        view.addSubview(well)
+        return view
     }
     
     @IBAction func saveButtonPressed(sender: AnyObject) {
