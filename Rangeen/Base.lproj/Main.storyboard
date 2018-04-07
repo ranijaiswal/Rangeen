@@ -899,9 +899,21 @@
                                     <action selector="saveButtonPressedWithSender:" target="DEB-cB-XZZ" id="a8q-lJ-GgO"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tjg-6h-hNw">
+                                <rect key="frame" x="358" y="55" width="94" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Add Row" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3wa-lR-TUw">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="addRowPressedWithSender:" target="DEB-cB-XZZ" id="A6b-O2-vZM"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="addRowsButton" destination="tjg-6h-hNw" id="DkC-XB-lVq"/>
                         <outlet property="saveButton" destination="osU-ZR-R4g" id="auO-f6-smu"/>
                         <outlet property="tableView" destination="dNY-Af-ryz" id="8ZU-sC-veI"/>
                     </connections>
