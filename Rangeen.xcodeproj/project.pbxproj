@@ -15,7 +15,6 @@
 		19B36B732058D03C00AC95C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B36B712058D03C00AC95C8 /* Main.storyboard */; };
 		19B36B7E2058D03C00AC95C8 /* RangeenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B7D2058D03C00AC95C8 /* RangeenTests.swift */; };
 		19B36B892058D03C00AC95C8 /* RangeenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B882058D03C00AC95C8 /* RangeenUITests.swift */; };
-		19EC65FC207B09FB0016122C /* CustomTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC65FB207B09FB0016122C /* CustomTableCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		19B36B842058D03C00AC95C8 /* RangeenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RangeenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19B36B882058D03C00AC95C8 /* RangeenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeenUITests.swift; sourceTree = "<group>"; };
 		19B36B8A2058D03C00AC95C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19EC65FB207B09FB0016122C /* CustomTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */,
-				19EC65FB207B09FB0016122C /* CustomTableCellView.swift */,
 				19878E27206DC0BA0056FE4E /* SetColors.swift */,
 				19B36B6D2058D03C00AC95C8 /* ViewController.swift */,
 				1969FB63206E365000337C81 /* PickColors.swift */,
@@ -265,7 +262,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				19B36B6E2058D03C00AC95C8 /* ViewController.swift in Sources */,
-				19EC65FC207B09FB0016122C /* CustomTableCellView.swift in Sources */,
 				19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */,
 				1969FB64206E365000337C81 /* PickColors.swift in Sources */,
 				19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */,

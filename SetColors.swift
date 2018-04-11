@@ -16,6 +16,9 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     var colorReplacementFrom = [Int:NSColor]()
     var colorReplacementTo = [Int:NSColor]()
     var numRows: Int = 3
+    var fromWellsArray = [String: NSColorWell]()
+    var toWellsArray = [String: NSColorWell]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -29,9 +32,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     // when cell is edited, updates in defaults
-    @IBAction func cellFromEdited(sender: NSColorWell) {
-        let well = sender
-        let index = tableView.selectedRow
+    func cellFromEdited(well: NSColorWell) {
+        let index = Int(well.identifier!)!
         if index >= 0 {
             let colorFrom = well.color
             let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom")!
@@ -42,9 +44,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
         }
     }
-    @IBAction func cellToEdited(sender: NSColorWell) {
-        let well = sender
-        let index = tableView.selectedRow
+    func cellToEdited(well: NSColorWell) {
+        let index = Int(well.identifier!)!
         if index >= 0 {
             let colorTo = well.color
             let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")!
@@ -53,6 +54,15 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
             UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
             UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
+        }
+    }
+    
+    func updateColors() {
+        for colorWell in fromWellsArray.values {
+            cellFromEdited(well: colorWell)
+        }
+        for colorWell in toWellsArray.values {
+            cellToEdited(well: colorWell)
         }
     }
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -65,6 +75,14 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = NSTableCellView()
         let well = NSColorWell()
+        well.identifier = String(row)
+        if tableColumn?.identifier == "From" {
+            fromWellsArray[well.identifier!] = well
+        }
+        else if tableColumn?.identifier == "To" {
+            toWellsArray[well.identifier!] = well
+        }
+        well.color = NSColor.blue
         cell.addSubview(well)
         well.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -74,6 +92,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             well.widthAnchor.constraint(equalToConstant: 50)
         ])
         return cell
+        
     }
     @IBAction func addRowPressed(sender: NSButton) {
         tableView.beginUpdates()
@@ -83,6 +102,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     @IBAction func saveButtonPressed(sender: AnyObject) {
+        updateColors()
         dismissViewController(self)
     }
 }
