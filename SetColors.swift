@@ -57,13 +57,12 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         return 3
     }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let frameRect = NSRect(x: 0, y: 0, width: tableColumn!.width, height: 20)
-        var tableCellView = CustomTableCellView(frame: frameRect)
         let well = NSColorWell()
-        tableCellView.addSubview(well)
-        return tableCellView
+        let view = NSView()
+        view.addSubview(well)
+        return view
     }
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let well = NSColorWell()
         let view = NSView()
         view.addSubview(well)
