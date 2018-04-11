@@ -814,7 +814,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="pq8-aV-1S3" customClass="CustomTableCellView" customModule="Rangeen" customModuleProvider="target">
+                                                        <tableCellView id="pq8-aV-1S3">
                                                             <rect key="frame" x="1" y="1" width="172" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>

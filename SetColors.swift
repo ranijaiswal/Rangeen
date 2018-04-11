@@ -53,21 +53,32 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
         }
     }
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 30
+    }
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
         return 3
     }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cell = NSTableCellView()
+        let well = NSColorWell()
+        cell.addSubview(well)
+        well.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cell.leftAnchor.constraint(equalTo: well.leftAnchor),
+            cell.topAnchor.constraint(equalTo: well.topAnchor),
+            cell.bottomAnchor.constraint(equalTo: well.bottomAnchor),
+            well.widthAnchor.constraint(equalToConstant: 50)
+        ])
+        return cell
+    }
+    /*func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let well = NSColorWell()
         let view = NSView()
         view.addSubview(well)
         return view
-    }
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        let well = NSColorWell()
-        let view = NSView()
-        view.addSubview(well)
-        return view
-    }
+    }*/
     
     @IBAction func saveButtonPressed(sender: AnyObject) {
         dismissViewController(self)
