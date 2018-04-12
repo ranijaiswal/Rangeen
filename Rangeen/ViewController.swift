@@ -17,6 +17,8 @@ class ViewController: NSViewController {
     var timerDict = [String:Double]()
     var currentTimer: Timer!
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
+    let defaults = DefaultsHandler()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //updatePhoto()
@@ -88,10 +90,8 @@ class ViewController: NSViewController {
     func updatePhoto() {
         var img: CIImage = getScreenshot()
         
-        let fromDictData = UserDefaults.standard.data(forKey: "fromWellsArray")
-        let fromDict = NSKeyedUnarchiver.unarchiveObject(with: fromDictData!) as? [String:NSColorWell]
-        let toDictData = UserDefaults.standard.data(forKey: "toWellsArray")
-        let toDict = NSKeyedUnarchiver.unarchiveObject(with: toDictData!) as? [String:NSColorWell]
+        let fromDict = defaults.getFromArray()
+        let toDict = defaults.getToArray()
 
         if fromDict!.count > 0 {
             for index in 0...(fromDict!.count - 1) {
