@@ -12,7 +12,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var tableView: NSTableView!
     @IBOutlet var addRowsButton: NSButton!
-    var numRows: Int = 2
     var fromWellsArray = [String: NSColorWell]()
     var toWellsArray = [String: NSColorWell]()
     let defaults = DefaultsHandler()
@@ -21,23 +20,20 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        let currentFromDict = defaults.getFromArray()
-        let currentToDict = defaults.getToArray()
+        // initialize from/to wells arrays either fresh or from user defaults
+        let savedFromDict = defaults.getFromArray()
+        let savedToDict = defaults.getToArray()
+        let numRows = defaults.getNumRows()
         for i in 0..<numRows {
             var wellFrom: NSColorWell
             var wellTo: NSColorWell
-            if (currentFromDict == nil) {
-                wellFrom = NSColorWell()
-                wellTo = NSColorWell()
-                wellFrom.color = NSColor.red
-                wellTo.color = NSColor.red
-                wellFrom.identifier = String(i)
-                wellTo.identifier = String(i)
+            if (savedFromDict == nil) {
+                wellFrom = getRedWell(id: String(i))
+                wellTo = getRedWell(id: String(i))
             }
             else {
-                wellFrom = (currentFromDict?[String(i)])!
-                wellTo = (currentToDict?[String(i)])!
+                wellFrom = (savedFromDict?[String(i)])!
+                wellTo = (savedToDict?[String(i)])!
             }
             fromWellsArray[String(i)] = wellFrom
             toWellsArray[String(i)] = wellTo
@@ -47,39 +43,42 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         // Do view setup here.
     }
     
-    // when cell is edited, updates in defaults
-    func cellFromEdited(well: NSColorWell) {
-        let index = Int(well.identifier!)!
-        if index >= 0 {
+    func getRedWell(id: String) -> NSColorWell {
+        let well = NSColorWell()
+        well.identifier = id
+        well.color = NSColor.red
+        return well
+    }
+    
+    func saveColors() {
+        for colorWell in fromWellsArray.values {
             var currentDict = defaults.getFromArray()
-            currentDict![well.identifier!] = well
+            currentDict![colorWell.identifier!] = colorWell
             defaults.setFromArray(data: currentDict!)
         }
-    }
-    func cellToEdited(well: NSColorWell) {
-        let index = Int(well.identifier!)!
-        if index >= 0 {
+        for colorWell in toWellsArray.values {
             var currentDict = defaults.getToArray()
-            currentDict![well.identifier!] = well
+            currentDict![colorWell.identifier!] = colorWell
             defaults.setToArray(data: currentDict!)
         }
     }
+    @IBAction func saveButtonPressed(sender: AnyObject) {
+        saveColors()
+        dismissViewController(self)
+    }
+    @IBAction func addRowPressed(sender: NSButton) {
+        let numRows = defaults.getNumRows()
+        fromWellsArray[String(numRows)] = getRedWell(id: String(numRows))
+        toWellsArray[String(numRows)] = getRedWell(id: String(numRows))
+        defaults.setFromArray(data: fromWellsArray)
+        defaults.setToArray(data: toWellsArray)
+        tableView.beginUpdates()
+        tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .effectFade)
+        tableView.endUpdates()
+    }
     
-    func updateColors() {
-        for colorWell in fromWellsArray.values {
-            cellFromEdited(well: colorWell)
-        }
-        for colorWell in toWellsArray.values {
-            cellToEdited(well: colorWell)
-        }
-    }
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 30
-    }
+    // tableView inherited methods below
     
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return numRows
-    }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = NSTableCellView()
         var well: NSColorWell = NSColorWell()
@@ -96,19 +95,14 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             cell.topAnchor.constraint(equalTo: well.topAnchor),
             cell.bottomAnchor.constraint(equalTo: well.bottomAnchor),
             well.widthAnchor.constraint(equalToConstant: 50)
-        ])
+            ])
         return cell
-        
     }
-    @IBAction func addRowPressed(sender: NSButton) {
-        tableView.beginUpdates()
-        tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .effectFade)
-        tableView.endUpdates()
-        numRows += 1
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 30
     }
-    
-    @IBAction func saveButtonPressed(sender: AnyObject) {
-        updateColors()
-        dismissViewController(self)
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        let num = defaults.getNumRows()
+        return num
     }
 }

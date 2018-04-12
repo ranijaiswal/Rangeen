@@ -34,4 +34,14 @@ class DefaultsHandler {
         let toData = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
         UserDefaults.standard.set(toData, forKey: "toWellsArray")
     }
+    
+    func getNumRows() -> Int {
+        let from = getFromArray()
+        if (from != nil) {
+            return from!.count
+        }
+        else {
+            return 0
+        }
+    }
 }
