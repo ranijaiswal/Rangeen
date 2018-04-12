@@ -11,11 +11,17 @@ import Cocoa
 class DefaultsHandler {
     func getFromArray() -> [String:NSColorWell]? {
         let currentFromData = UserDefaults.standard.data(forKey: "fromWellsArray")
+        if currentFromData == nil {
+            return nil
+        }
         let currentFromDict = NSKeyedUnarchiver.unarchiveObject(with: currentFromData!) as? [String: NSColorWell]
         return currentFromDict
     }
     func getToArray() -> [String:NSColorWell]? {
         let currentToData = UserDefaults.standard.data(forKey: "toWellsArray")
+        if currentToData == nil {
+            return nil
+        }
         let currentToDict = NSKeyedUnarchiver.unarchiveObject(with: currentToData!) as? [String: NSColorWell]
         return currentToDict
     }

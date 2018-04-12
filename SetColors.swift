@@ -21,6 +21,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
         let currentFromDict = defaults.getFromArray()
         let currentToDict = defaults.getToArray()
         for i in 0..<numRows {
