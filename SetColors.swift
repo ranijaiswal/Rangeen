@@ -13,9 +13,9 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var tableView: NSTableView!
     @IBOutlet var addRowsButton: NSButton!
-    var colorReplacementFrom = [Int:NSColor]()
-    var colorReplacementTo = [Int:NSColor]()
-    var numRows: Int = 3
+   // var colorReplacementFrom = [Int:NSColor]()
+   // var colorReplacementTo = [Int:NSColor]()
+    var numRows: Int = 2
     var fromWellsArray = [String: NSColorWell]()
     var toWellsArray = [String: NSColorWell]()
     
@@ -23,11 +23,33 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        let fromData = NSKeyedArchiver.archivedData(withRootObject: colorReplacementFrom) as NSData?
-        let toData = NSKeyedArchiver.archivedData(withRootObject: colorReplacementTo) as NSData?
-        UserDefaults.standard.set(fromData, forKey: "colorReplacementFrom")
-        UserDefaults.standard.set(toData, forKey: "colorReplacementTo")
-        numRows = 3
+        
+        let currentFromData = UserDefaults.standard.data(forKey: "fromWellsArray")
+        let currentFromDict = NSKeyedUnarchiver.unarchiveObject(with: currentFromData!) as? [String: NSColorWell]
+        let currentToData = UserDefaults.standard.data(forKey: "toWellsArray")
+        let currentToDict = NSKeyedUnarchiver.unarchiveObject(with: currentToData!) as? [String: NSColorWell]
+        for i in 0..<numRows {
+            var wellFrom: NSColorWell
+            var wellTo: NSColorWell
+            if (currentFromDict == nil) {
+                wellFrom = NSColorWell()
+                wellTo = NSColorWell()
+                wellFrom.color = NSColor.red
+                wellTo.color = NSColor.red
+                wellFrom.identifier = String(i)
+                wellTo.identifier = String(i)
+            }
+            else {
+                wellFrom = (currentFromDict?[String(i)])!
+                wellTo = (currentToDict?[String(i)])!
+            }
+            fromWellsArray[String(i)] = wellFrom
+            toWellsArray[String(i)] = wellTo
+        }
+        let fromData = NSKeyedArchiver.archivedData(withRootObject: fromWellsArray) as NSData?
+        let toData = NSKeyedArchiver.archivedData(withRootObject: toWellsArray) as NSData?
+        UserDefaults.standard.set(fromData, forKey: "fromWellsArray")
+        UserDefaults.standard.set(toData, forKey: "toWellsArray")
         // Do view setup here.
     }
     
@@ -35,25 +57,23 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     func cellFromEdited(well: NSColorWell) {
         let index = Int(well.identifier!)!
         if index >= 0 {
-            let colorFrom = well.color
-            let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom")!
-            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
-            currentDict![index] = colorFrom
+            let currentDictData = UserDefaults.standard.data(forKey: "fromWellsArray")!
+            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [String: NSColorWell]
+            currentDict![well.identifier!] = well
             let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
             UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
-            UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementFrom")
+            UserDefaults.standard.set(currentDictNSData, forKey: "fromWellsArray")
         }
     }
     func cellToEdited(well: NSColorWell) {
         let index = Int(well.identifier!)!
         if index >= 0 {
-            let colorTo = well.color
-            let currentDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")!
-            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [Int: NSColor]
-            currentDict![index] = colorTo
+            let currentDictData = UserDefaults.standard.data(forKey: "toWellsArray")!
+            var currentDict = NSKeyedUnarchiver.unarchiveObject(with: currentDictData) as? [String: NSColorWell]
+            currentDict![well.identifier!] = well
             let currentDictNSData = NSKeyedArchiver.archivedData(withRootObject: currentDict!) as NSData?
             UserDefaults.standard.set(currentDictNSData, forKey: "lastCubeFilter")
-            UserDefaults.standard.set(currentDictNSData, forKey: "colorReplacementTo")
+            UserDefaults.standard.set(currentDictNSData, forKey: "toWellsArray")
         }
     }
     
@@ -74,15 +94,13 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = NSTableCellView()
-        let well = NSColorWell()
-        well.identifier = String(row)
+        var well: NSColorWell = NSColorWell()
         if tableColumn?.identifier == "From" {
-            fromWellsArray[well.identifier!] = well
+            well = fromWellsArray[String(row)]!
         }
         else if tableColumn?.identifier == "To" {
-            toWellsArray[well.identifier!] = well
+            well = toWellsArray[String(row)]!
         }
-        well.color = NSColor.blue
         cell.addSubview(well)
         well.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

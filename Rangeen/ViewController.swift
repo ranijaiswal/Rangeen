@@ -88,15 +88,15 @@ class ViewController: NSViewController {
     func updatePhoto() {
         var img: CIImage = getScreenshot()
         
-        let fromDictData = UserDefaults.standard.data(forKey: "colorReplacementFrom") 
-        let fromDict = NSKeyedUnarchiver.unarchiveObject(with: fromDictData!) as? [Int:NSColor]
-        let toDictData = UserDefaults.standard.data(forKey: "colorReplacementTo")
-        let toDict = NSKeyedUnarchiver.unarchiveObject(with: toDictData!) as? [Int:NSColor]
+        let fromDictData = UserDefaults.standard.data(forKey: "fromWellsArray")
+        let fromDict = NSKeyedUnarchiver.unarchiveObject(with: fromDictData!) as? [String:NSColorWell]
+        let toDictData = UserDefaults.standard.data(forKey: "toWellsArray")
+        let toDict = NSKeyedUnarchiver.unarchiveObject(with: toDictData!) as? [String:NSColorWell]
 
         if fromDict!.count > 0 {
             for index in 0...(fromDict!.count - 1) {
-                let colorFrom = fromDict?[index]
-                let colorTo = toDict?[index]
+                let colorFrom = fromDict?[String(index)]?.color
+                let colorTo = toDict?[String(index)]?.color
                 let filter = updateColorCube(colorFrom: colorFrom!, colorTo: colorTo!)
                 filter.setValue(img, forKey: kCIInputImageKey)
                 let filteredImage = filter.outputImage!
