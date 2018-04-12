@@ -21,11 +21,14 @@ class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //updatePhoto()
-        configureTimer()
+
         // Do any additional setup after loading the view.
     }
 
+    override func viewDidAppear() {
+        updatePhoto()
+        configureTimer()
+    }
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.

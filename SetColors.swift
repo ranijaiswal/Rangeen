@@ -12,6 +12,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var tableView: NSTableView!
     @IBOutlet var addRowsButton: NSButton!
+    @IBOutlet var resetButton: NSButton!
     var fromWellsArray = [String: NSColorWell]()
     var toWellsArray = [String: NSColorWell]()
     let defaults = DefaultsHandler()
@@ -20,6 +21,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
         // initialize from/to wells arrays either fresh or from user defaults
         let savedFromDict = defaults.getFromArray()
         let savedToDict = defaults.getToArray()
@@ -73,14 +75,44 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
         tableView.beginUpdates()
-        tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .effectFade)
+        tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .slideUp)
         tableView.endUpdates()
     }
     
+    @IBAction func resetButtonPressed(sender: NSButton) {
+        let numRows = defaults.getNumRows()
+        for _ in 0..<numRows {
+            tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .slideDown)
+        }
+        fromWellsArray.removeAll()
+        toWellsArray.removeAll()
+        defaults.setFromArray(data: fromWellsArray)
+        defaults.setToArray(data: toWellsArray)
+    }
+    
+    func deletePressed(sender: NSButton) {
+  //      tableView.removeRows(at: IndexSet(integer: Int(sender.identifier!)!), withAnimation: .slideDown)
+    }
     // tableView inherited methods below
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = NSTableCellView()
+        
+        if tableColumn?.identifier == "Delete" {
+            let deleteButton = NSButton()
+            deleteButton.title = "x"
+            deleteButton.identifier = String(row)
+            deleteButton.action = #selector(self.deletePressed)
+            cell.addSubview(deleteButton)
+            deleteButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                deleteButton.heightAnchor.constraint(equalToConstant: 20),
+                deleteButton.widthAnchor.constraint(equalToConstant: 20),
+                deleteButton.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+                deleteButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
+                ])
+            return cell
+        }
         var well: NSColorWell = NSColorWell()
         if tableColumn?.identifier == "From" {
             well = fromWellsArray[String(row)]!
