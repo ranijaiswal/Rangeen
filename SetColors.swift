@@ -91,7 +91,34 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func deletePressed(sender: NSButton) {
-  //      tableView.removeRows(at: IndexSet(integer: Int(sender.identifier!)!), withAnimation: .slideDown)
+        // remove from wells arrays 
+        let numRows = defaults.getNumRows()
+        let rowToDelete = tableView.row(for: sender)
+        fromWellsArray.removeValue(forKey: String(rowToDelete))
+        toWellsArray.removeValue(forKey: String(rowToDelete))
+        let start = rowToDelete + 1
+        if (start < numRows) {
+            for i in start..<numRows {
+                let fromWell = fromWellsArray[String(i)]
+                print(tableView.row(for: fromWell!))
+                let toWell = toWellsArray[String(i)]
+                fromWellsArray.removeValue(forKey: String(i))
+                toWellsArray.removeValue(forKey: String(i))
+                
+                fromWell?.identifier = String(Int((fromWell?.identifier)!)! - 1)
+                toWell?.identifier = String(Int((toWell?.identifier)!)! - 1)
+                
+                fromWellsArray[String(i - 1)] = fromWell
+                toWellsArray[String(i - 1)] = toWell
+            }
+        }
+
+        defaults.setFromArray(data: fromWellsArray)
+        defaults.setToArray(data: toWellsArray)
+
+        tableView.beginUpdates()
+        tableView.removeRows(at: IndexSet(integer: rowToDelete), withAnimation: .slideDown)
+        tableView.endUpdates()
     }
     // tableView inherited methods below
     
@@ -101,7 +128,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if tableColumn?.identifier == "Delete" {
             let deleteButton = NSButton()
             deleteButton.title = "x"
-            deleteButton.identifier = String(row)
             deleteButton.action = #selector(self.deletePressed)
             cell.addSubview(deleteButton)
             deleteButton.translatesAutoresizingMaskIntoConstraints = false
