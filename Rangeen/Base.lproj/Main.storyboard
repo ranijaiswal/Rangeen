@@ -704,7 +704,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="DEB-cB-XZZ" kind="popover" popoverAnchorView="Dvp-pm-3qn" popoverBehavior="t" preferredEdge="maxY" id="sPZ-Mh-LxI"/>
+                                    <segue destination="DEB-cB-XZZ" kind="sheet" id="Cuc-HK-y4O"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZfS-8c-tCA">

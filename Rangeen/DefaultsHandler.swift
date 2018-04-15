@@ -9,28 +9,28 @@
 import Cocoa
 
 class DefaultsHandler {
-    func getFromArray() -> [String:NSColorWell]? {
+    func getFromArray() -> [NSColorWell]? {
         let currentFromData = UserDefaults.standard.data(forKey: "fromWellsArray")
         if currentFromData == nil {
             return nil
         }
-        let currentFromDict = NSKeyedUnarchiver.unarchiveObject(with: currentFromData!) as? [String: NSColorWell]
+        let currentFromDict = NSKeyedUnarchiver.unarchiveObject(with: currentFromData!) as? [NSColorWell]
         return currentFromDict
     }
-    func getToArray() -> [String:NSColorWell]? {
+    func getToArray() -> [NSColorWell]? {
         let currentToData = UserDefaults.standard.data(forKey: "toWellsArray")
         if currentToData == nil {
             return nil
         }
-        let currentToDict = NSKeyedUnarchiver.unarchiveObject(with: currentToData!) as? [String: NSColorWell]
+        let currentToDict = NSKeyedUnarchiver.unarchiveObject(with: currentToData!) as? [NSColorWell]
         return currentToDict
     }
     
-    func setFromArray(data: [String:NSColorWell]) {
+    func setFromArray(data: [NSColorWell]) {
         let fromData = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
         UserDefaults.standard.set(fromData, forKey: "fromWellsArray")
     }
-    func setToArray(data: [String:NSColorWell]) {
+    func setToArray(data: [NSColorWell]) {
         let toData = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
         UserDefaults.standard.set(toData, forKey: "toWellsArray")
     }
@@ -41,7 +41,7 @@ class DefaultsHandler {
             return from!.count
         }
         else {
-            return 0
+            return 1
         }
     }
 }

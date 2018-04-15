@@ -95,11 +95,11 @@ class ViewController: NSViewController {
         
         let fromDict = defaults.getFromArray()
         let toDict = defaults.getToArray()
-
-        if fromDict!.count > 0 {
+        
+        if fromDict != nil && (fromDict?.count)! > 0 {
             for index in 0...(fromDict!.count - 1) {
-                let colorFrom = fromDict?[String(index)]?.color
-                let colorTo = toDict?[String(index)]?.color
+                let colorFrom = fromDict?[index].color
+                let colorTo = toDict?[index].color
                 let filter = updateColorCube(colorFrom: colorFrom!, colorTo: colorTo!)
                 filter.setValue(img, forKey: kCIInputImageKey)
                 let filteredImage = filter.outputImage!

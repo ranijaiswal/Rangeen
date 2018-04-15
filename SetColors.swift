@@ -13,8 +13,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var tableView: NSTableView!
     @IBOutlet var addRowsButton: NSButton!
     @IBOutlet var resetButton: NSButton!
-    var fromWellsArray = [String: NSColorWell]()
-    var toWellsArray = [String: NSColorWell]()
+    var fromWellsArray = [NSColorWell]()
+    var toWellsArray = [NSColorWell]()
     let defaults = DefaultsHandler()
 
     override func viewDidLoad() {
@@ -30,37 +30,36 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             var wellFrom: NSColorWell
             var wellTo: NSColorWell
             if (savedFromDict == nil) {
-                wellFrom = getRedWell(id: String(i))
-                wellTo = getRedWell(id: String(i))
+                wellFrom = getRedWell()
+                wellTo = getRedWell()
             }
             else {
-                wellFrom = (savedFromDict?[String(i)])!
-                wellTo = (savedToDict?[String(i)])!
+                wellFrom = (savedFromDict?[i])!
+                wellTo = (savedToDict?[i])!
             }
-            fromWellsArray[String(i)] = wellFrom
-            toWellsArray[String(i)] = wellTo
+            fromWellsArray.append(wellFrom)
+            toWellsArray.append(wellTo)
         }
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
         // Do view setup here.
     }
     
-    func getRedWell(id: String) -> NSColorWell {
+    func getRedWell() -> NSColorWell {
         let well = NSColorWell()
-        well.identifier = id
         well.color = NSColor.red
         return well
     }
     
     func saveColors() {
-        for colorWell in fromWellsArray.values {
+        for (i, colorWell) in fromWellsArray.enumerated() {
             var currentDict = defaults.getFromArray()
-            currentDict![colorWell.identifier!] = colorWell
+            currentDict![i] = colorWell
             defaults.setFromArray(data: currentDict!)
         }
-        for colorWell in toWellsArray.values {
+        for (i, colorWell) in toWellsArray.enumerated() {
             var currentDict = defaults.getToArray()
-            currentDict![colorWell.identifier!] = colorWell
+            currentDict![i] = colorWell
             defaults.setToArray(data: currentDict!)
         }
     }
@@ -70,8 +69,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     @IBAction func addRowPressed(sender: NSButton) {
         let numRows = defaults.getNumRows()
-        fromWellsArray[String(numRows)] = getRedWell(id: String(numRows))
-        toWellsArray[String(numRows)] = getRedWell(id: String(numRows))
+        fromWellsArray.append(getRedWell())
+        toWellsArray.append(getRedWell())
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
         tableView.beginUpdates()
@@ -86,32 +85,21 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         fromWellsArray.removeAll()
         toWellsArray.removeAll()
+        
+        let wellFrom = getRedWell()
+        let wellTo = getRedWell()
+        fromWellsArray.append(wellFrom)
+        toWellsArray.append(wellTo)
+        tableView.insertRows(at: IndexSet(integer:0), withAnimation: .slideUp)
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
     }
     
     func deletePressed(sender: NSButton) {
         // remove from wells arrays 
-        let numRows = defaults.getNumRows()
         let rowToDelete = tableView.row(for: sender)
-        fromWellsArray.removeValue(forKey: String(rowToDelete))
-        toWellsArray.removeValue(forKey: String(rowToDelete))
-        let start = rowToDelete + 1
-        if (start < numRows) {
-            for i in start..<numRows {
-                let fromWell = fromWellsArray[String(i)]
-                print(tableView.row(for: fromWell!))
-                let toWell = toWellsArray[String(i)]
-                fromWellsArray.removeValue(forKey: String(i))
-                toWellsArray.removeValue(forKey: String(i))
-                
-                fromWell?.identifier = String(Int((fromWell?.identifier)!)! - 1)
-                toWell?.identifier = String(Int((toWell?.identifier)!)! - 1)
-                
-                fromWellsArray[String(i - 1)] = fromWell
-                toWellsArray[String(i - 1)] = toWell
-            }
-        }
+        fromWellsArray.remove(at: rowToDelete)
+        toWellsArray.remove(at: rowToDelete)
 
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
@@ -141,10 +129,10 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         var well: NSColorWell = NSColorWell()
         if tableColumn?.identifier == "From" {
-            well = fromWellsArray[String(row)]!
+            well = fromWellsArray[row]
         }
         else if tableColumn?.identifier == "To" {
-            well = toWellsArray[String(row)]!
+            well = toWellsArray[row]
         }
         cell.addSubview(well)
         well.translatesAutoresizingMaskIntoConstraints = false
