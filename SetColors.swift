@@ -17,6 +17,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     var toWellsArray = [NSColorWell]()
     let defaults = DefaultsHandler()
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -42,6 +43,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
+        
         // Do view setup here.
     }
     
@@ -125,15 +127,35 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
                 deleteButton.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
                 deleteButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
                 ])
-            return cell
         }
-        var well: NSColorWell = NSColorWell()
-        if tableColumn?.identifier == "From" {
-            well = fromWellsArray[row]
+        
+        else if tableColumn?.identifier == "From" || tableColumn?.identifier == "To" {
+            var well: NSColorWell = NSColorWell()
+            if tableColumn?.identifier == "From" {
+                well = fromWellsArray[row]
+            }
+            else if tableColumn?.identifier == "To" {
+                well = toWellsArray[row]
+            }
+            well.action = #selector(self.colorChanged)
+            cell.addSubview(well)
+            well.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                cell.leftAnchor.constraint(equalTo: well.leftAnchor),
+                cell.topAnchor.constraint(equalTo: well.topAnchor),
+                cell.bottomAnchor.constraint(equalTo: well.bottomAnchor),
+                well.widthAnchor.constraint(equalToConstant: 50)
+                ])
         }
-        else if tableColumn?.identifier == "To" {
-            well = toWellsArray[row]
-        }
+        return cell
+    }
+    
+    func colorChanged(sender: NSColorWell) {
+        let colorName = colorIn(well: sender)
+        let row = tableView.row(for: sender)
+        var cell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)!
+        var well = NSColorWell()
+        well.color = sender.color
         cell.addSubview(well)
         well.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -142,8 +164,38 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             cell.bottomAnchor.constraint(equalTo: well.bottomAnchor),
             well.widthAnchor.constraint(equalToConstant: 50)
             ])
-        return cell
     }
+    func colorIn(well: NSColorWell) -> String {
+        let color = well.color
+//color.colorSpace = NSColorSpace.extendedSRGB
+     //   let name = color.colorNameComponent
+        var ptrFrom:CGFloat = 0.0
+        color.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
+        let centerHueAngle: Float = Float(ptrFrom)
+        
+        if centerHueAngle > 0.97 || centerHueAngle <= 0.04 {
+            return "Red"
+        }
+        else if centerHueAngle <= 0.09 {
+            return "Orange"
+        }
+        else if centerHueAngle <= 0.18 {
+            return "Yellow"
+        }
+        else if centerHueAngle <= 0.4 {
+            return "Green"
+        }
+        else if centerHueAngle <= 0.64 {
+            return "Blue"
+        }
+        else if centerHueAngle <= 0.78 {
+            return "Purple"
+        }
+        else {
+            return "Pink"
+        }
+    }
+    
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return 30
     }
