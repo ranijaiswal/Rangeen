@@ -153,9 +153,12 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     func colorChanged(sender: NSColorWell) {
         let colorName = colorIn(well: sender)
         let row = tableView.row(for: sender)
-        var cell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)!
-        var well = NSColorWell()
-        well.color = sender.color
+        let cell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)!
+        let well = NSTextField()
+        let attributedString = NSAttributedString(string: colorName, attributes: ["Color": NSColor.black])
+        well.placeholderAttributedString = attributedString
+        well.isBordered = false
+        
         cell.addSubview(well)
         well.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
