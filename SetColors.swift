@@ -159,7 +159,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         else if tableColumn?.identifier == "ToColor" {
             let well = toWellsArray[row]
-            let newCell = tableView.view(atColumn: 2, row: row, makeIfNecessary: true)
+            let newCell = tableView.view(atColumn: 3, row: row, makeIfNecessary: true)
             if newCell == nil {
                 setColorNameView(cell: cell, colorName: colorIn(well: well))
             }
