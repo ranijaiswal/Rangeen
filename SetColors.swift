@@ -110,10 +110,9 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         tableView.removeRows(at: IndexSet(integer: rowToDelete), withAnimation: .slideDown)
         tableView.endUpdates()
     }
-    // tableView inherited methods below
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = NSTableCellView()
+        var cell = NSView()
         
         if tableColumn?.identifier == "Delete" {
             let deleteButton = NSButton()
@@ -147,31 +146,54 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
                 well.widthAnchor.constraint(equalToConstant: 50)
                 ])
         }
+        else if tableColumn?.identifier == "FromColor" {
+            let well = fromWellsArray[row]
+            let newCell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)
+            if newCell == nil {
+                setColorNameView(cell: cell, colorName: colorIn(well: well))
+            }
+            else {
+                setColorNameView(cell: newCell!, colorName: colorIn(well: well))
+                cell = newCell!
+            }
+        }
+        else if tableColumn?.identifier == "ToColor" {
+            let well = toWellsArray[row]
+            let newCell = tableView.view(atColumn: 2, row: row, makeIfNecessary: true)
+            if newCell == nil {
+                setColorNameView(cell: cell, colorName: colorIn(well: well))
+            }
+            else {
+                setColorNameView(cell: newCell!, colorName: colorIn(well: well))
+                cell = newCell!
+            }
+        }
         return cell
     }
     
     func colorChanged(sender: NSColorWell) {
         let colorName = colorIn(well: sender)
         let row = tableView.row(for: sender)
-        let cell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)!
-        let well = NSTextField()
+        let col = tableView.column(for: sender)
+        let cell = tableView.view(atColumn: col + 1, row: row, makeIfNecessary: true)!
+        setColorNameView(cell: cell, colorName: colorName)
+    }
+    func setColorNameView(cell: NSView, colorName: String) {
+        let text = NSTextField()
         let attributedString = NSAttributedString(string: colorName, attributes: ["Color": NSColor.black])
-        well.placeholderAttributedString = attributedString
-        well.isBordered = false
-        
-        cell.addSubview(well)
-        well.translatesAutoresizingMaskIntoConstraints = false
+        text.placeholderAttributedString = attributedString
+        text.isBordered = false
+        cell.addSubview(text)
+        text.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            cell.leftAnchor.constraint(equalTo: well.leftAnchor),
-            cell.topAnchor.constraint(equalTo: well.topAnchor),
-            cell.bottomAnchor.constraint(equalTo: well.bottomAnchor),
-            well.widthAnchor.constraint(equalToConstant: 50)
+            cell.leftAnchor.constraint(equalTo: text.leftAnchor),
+            cell.topAnchor.constraint(equalTo: text.topAnchor),
+            cell.bottomAnchor.constraint(equalTo: text.bottomAnchor),
+            text.widthAnchor.constraint(equalToConstant: 50)
             ])
     }
     func colorIn(well: NSColorWell) -> String {
         let color = well.color
-//color.colorSpace = NSColorSpace.extendedSRGB
-     //   let name = color.colorNameComponent
         var ptrFrom:CGFloat = 0.0
         color.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
         let centerHueAngle: Float = Float(ptrFrom)
