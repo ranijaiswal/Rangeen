@@ -101,7 +101,6 @@ class ViewController: NSViewController {
     }
     
     func getAdjustment(hsv: (h : Float, s : Float, v : Float), fromDict: [NSColorWell], toDict: [NSColorWell]) -> (r: Float, g: Float, b: Float) {
-        //if fromDict != nil && (fromDict.count) > 0 {
         if fromDict.count > 0 {
             for index in 0...(fromDict.count - 1) {
                 let colorFrom = fromDict[index].color
@@ -132,13 +131,12 @@ class ViewController: NSViewController {
     
     // if color preferences have changed, updates colorCubeFilter
     func updateColorCube() -> CIFilter {
+        let fromDict = defaults.getFromArray()
+        let toDict = defaults.getToArray()
         let size = 64
         var cubeData = [Float](repeating: 0, count: size * size * size * 4)
         var rgb: [Float] = [0, 0, 0]
         var hsv: (h : Float, s : Float, v : Float)
-        let fromDict = defaults.getFromArray()
-        let toDict = defaults.getToArray()
-        //var newRGB: (r : Float, g : Float, b : Float)
         var offset = 0
         for z in 0 ..< size {
             rgb[2] = Float(z) / Float(size) // blue value
