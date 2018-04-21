@@ -91,42 +91,29 @@ class ViewController: NSViewController {
     
     // updates the photo displayed
     func updatePhoto() {
-        var img: CIImage = getScreenshot()
-        
-        let fromDict = defaults.getFromArray()
-        let toDict = defaults.getToArray()
-        
-        if fromDict != nil && (fromDict?.count)! > 0 {
-            for index in 0...(fromDict!.count - 1) {
-                let colorFrom = fromDict?[index].color
-                let colorTo = toDict?[index].color
-                let filter = updateColorCube(colorFrom: colorFrom!, colorTo: colorTo!)
-                filter.setValue(img, forKey: kCIInputImageKey)
-                let filteredImage = filter.outputImage!
-                img = filteredImage
-            }
-        }
+        let img: CIImage = getScreenshot()
+        let filter = updateColorCube()
+        filter.setValue(img, forKey: kCIInputImageKey)
+        let filteredImage = filter.outputImage!
         let context = CIContext(options: nil)
-        let finalImage = context.createCGImage(img, from: (img.extent))
+        let finalImage = context.createCGImage(filteredImage, from: (filteredImage.extent))
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     
-    func getAdjustment(hsv: (h : Float, s : Float, v : Float)) -> (r: Float, g: Float, b: Float) {
-        let fromDict = defaults.getFromArray()
-        let toDict = defaults.getToArray()
-
-        if fromDict != nil && (fromDict?.count)! > 0 {
-            for index in 0...(fromDict!.count - 1) {
-                let colorFrom = fromDict?[index].color
-                let colorTo = toDict?[index].color
+    func getAdjustment(hsv: (h : Float, s : Float, v : Float), fromDict: [NSColorWell], toDict: [NSColorWell]) -> (r: Float, g: Float, b: Float) {
+        //if fromDict != nil && (fromDict.count) > 0 {
+        if fromDict.count > 0 {
+            for index in 0...(fromDict.count - 1) {
+                let colorFrom = fromDict[index].color
+                let colorTo = toDict[index].color
 
                 var ptrFrom:CGFloat = 0.0
-                colorFrom?.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
+                colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
                 let defaultHue = Float(ptrFrom)*360.0
                 let centerHueAngle: Float = Float(ptrFrom)
                 
                 var ptrTo:CGFloat = 0.0
-                colorTo?.getHue(&ptrTo, saturation: nil, brightness: nil, alpha: nil)
+                colorTo.getHue(&ptrTo, saturation: nil, brightness: nil, alpha: nil)
                 let destCenterHueAngle: Float = Float(ptrTo)
                 let minHueAngle: Float = (defaultHue - hueRange/2.0) / 360
                 let maxHueAngle: Float = (defaultHue + hueRange/2.0) / 360
@@ -144,11 +131,13 @@ class ViewController: NSViewController {
     }
     
     // if color preferences have changed, updates colorCubeFilter
-    func updateColorCube(colorFrom: NSColor, colorTo: NSColor) -> CIFilter {
+    func updateColorCube() -> CIFilter {
         let size = 64
         var cubeData = [Float](repeating: 0, count: size * size * size * 4)
         var rgb: [Float] = [0, 0, 0]
         var hsv: (h : Float, s : Float, v : Float)
+        let fromDict = defaults.getFromArray()
+        let toDict = defaults.getToArray()
         //var newRGB: (r : Float, g : Float, b : Float)
         var offset = 0
         for z in 0 ..< size {
@@ -158,7 +147,7 @@ class ViewController: NSViewController {
                 for x in 0 ..< size {
                     rgb[0] = Float(x) / Float(size) // red value
                     hsv = RGBtoHSV(rgb[0], g: rgb[1], b: rgb[2])
-                    let newRGB = getAdjustment(hsv: hsv)
+                    let newRGB = getAdjustment(hsv: hsv, fromDict: fromDict!, toDict: toDict!)
                     cubeData[offset] = newRGB.r
                     cubeData[offset+1] = newRGB.g
                     cubeData[offset+2] = newRGB.b
