@@ -111,9 +111,7 @@ class ViewController: NSViewController {
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     
-    // if color preferences have changed, updates colorCubeFilter
-    func updateColorCube(colorFrom: NSColor, colorTo: NSColor) -> CIFilter {
-        
+    func getAdjustment(hsv: (h : Float, s : Float, v : Float), colorFrom: NSColor, colorTo: NSColor) -> (r: Float, g: Float, b: Float) {
         var ptrFrom:CGFloat = 0.0
         colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
         let defaultHue = Float(ptrFrom)*360.0
@@ -125,6 +123,20 @@ class ViewController: NSViewController {
         let minHueAngle: Float = (defaultHue - hueRange/2.0) / 360
         let maxHueAngle: Float = (defaultHue + hueRange/2.0) / 360
         let hueAdjustment = centerHueAngle - destCenterHueAngle
+
+        var newRGB: (r : Float, g : Float, b : Float)
+        if hsv.h < minHueAngle || hsv.h > maxHueAngle {
+            newRGB = HSVtoRGB(hsv.h, s: hsv.s, v: hsv.v)
+        } else {
+            let newHue = destCenterHueAngle == 1 ? 0 : hsv.h - hueAdjustment
+            newRGB = HSVtoRGB(newHue, s:hsv.s, v:hsv.v)
+        }
+        return newRGB
+    }
+    
+    // if color preferences have changed, updates colorCubeFilter
+    func updateColorCube(colorFrom: NSColor, colorTo: NSColor) -> CIFilter {
+        
         let size = 64
         var cubeData = [Float](repeating: 0, count: size * size * size * 4)
         var rgb: [Float] = [0, 0, 0]
@@ -138,14 +150,7 @@ class ViewController: NSViewController {
                 for x in 0 ..< size {
                     rgb[0] = Float(x) / Float(size) // red value
                     hsv = RGBtoHSV(rgb[0], g: rgb[1], b: rgb[2])
-                    if hsv.h < minHueAngle || hsv.h > maxHueAngle {
-                        newRGB.r = rgb[0]
-                        newRGB.g = rgb[1]
-                        newRGB.b = rgb[2]
-                    } else {
-                        hsv.h = destCenterHueAngle == 1 ? 0 : hsv.h - hueAdjustment
-                        newRGB = HSVtoRGB(hsv.h, s:hsv.s, v:hsv.v)
-                    }
+                    newRGB = getAdjustment(hsv: hsv, colorFrom: colorFrom, colorTo: colorTo)
                     cubeData[offset] = newRGB.r
                     cubeData[offset+1] = newRGB.g
                     cubeData[offset+2] = newRGB.b
