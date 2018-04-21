@@ -111,37 +111,45 @@ class ViewController: NSViewController {
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     
-    func getAdjustment(hsv: (h : Float, s : Float, v : Float), colorFrom: NSColor, colorTo: NSColor) -> (r: Float, g: Float, b: Float) {
-        var ptrFrom:CGFloat = 0.0
-        colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
-        let defaultHue = Float(ptrFrom)*360.0
-        let centerHueAngle: Float = Float(ptrFrom)
-        
-        var ptrTo:CGFloat = 0.0
-        colorTo.getHue(&ptrTo, saturation: nil, brightness: nil, alpha: nil)
-        let destCenterHueAngle: Float = Float(ptrTo)
-        let minHueAngle: Float = (defaultHue - hueRange/2.0) / 360
-        let maxHueAngle: Float = (defaultHue + hueRange/2.0) / 360
-        let hueAdjustment = centerHueAngle - destCenterHueAngle
+    func getAdjustment(hsv: (h : Float, s : Float, v : Float)) -> (r: Float, g: Float, b: Float) {
+        let fromDict = defaults.getFromArray()
+        let toDict = defaults.getToArray()
 
-        var newRGB: (r : Float, g : Float, b : Float)
-        if hsv.h < minHueAngle || hsv.h > maxHueAngle {
-            newRGB = HSVtoRGB(hsv.h, s: hsv.s, v: hsv.v)
-        } else {
-            let newHue = destCenterHueAngle == 1 ? 0 : hsv.h - hueAdjustment
-            newRGB = HSVtoRGB(newHue, s:hsv.s, v:hsv.v)
+        if fromDict != nil && (fromDict?.count)! > 0 {
+            for index in 0...(fromDict!.count - 1) {
+                let colorFrom = fromDict?[index].color
+                let colorTo = toDict?[index].color
+
+                var ptrFrom:CGFloat = 0.0
+                colorFrom?.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
+                let defaultHue = Float(ptrFrom)*360.0
+                let centerHueAngle: Float = Float(ptrFrom)
+                
+                var ptrTo:CGFloat = 0.0
+                colorTo?.getHue(&ptrTo, saturation: nil, brightness: nil, alpha: nil)
+                let destCenterHueAngle: Float = Float(ptrTo)
+                let minHueAngle: Float = (defaultHue - hueRange/2.0) / 360
+                let maxHueAngle: Float = (defaultHue + hueRange/2.0) / 360
+                let hueAdjustment = centerHueAngle - destCenterHueAngle
+
+                var newRGB: (r : Float, g : Float, b : Float)
+                if hsv.h > minHueAngle && hsv.h < maxHueAngle {
+                    let newHue = destCenterHueAngle == 1 ? 0 : hsv.h - hueAdjustment
+                    newRGB = HSVtoRGB(newHue, s:hsv.s, v:hsv.v)
+                    return newRGB
+                }
+            }
         }
-        return newRGB
+        return HSVtoRGB(hsv.h, s: hsv.s, v: hsv.v)
     }
     
     // if color preferences have changed, updates colorCubeFilter
     func updateColorCube(colorFrom: NSColor, colorTo: NSColor) -> CIFilter {
-        
         let size = 64
         var cubeData = [Float](repeating: 0, count: size * size * size * 4)
         var rgb: [Float] = [0, 0, 0]
         var hsv: (h : Float, s : Float, v : Float)
-        var newRGB: (r : Float, g : Float, b : Float)
+        //var newRGB: (r : Float, g : Float, b : Float)
         var offset = 0
         for z in 0 ..< size {
             rgb[2] = Float(z) / Float(size) // blue value
@@ -150,7 +158,7 @@ class ViewController: NSViewController {
                 for x in 0 ..< size {
                     rgb[0] = Float(x) / Float(size) // red value
                     hsv = RGBtoHSV(rgb[0], g: rgb[1], b: rgb[2])
-                    newRGB = getAdjustment(hsv: hsv, colorFrom: colorFrom, colorTo: colorTo)
+                    let newRGB = getAdjustment(hsv: hsv)
                     cubeData[offset] = newRGB.r
                     cubeData[offset+1] = newRGB.g
                     cubeData[offset+2] = newRGB.b
