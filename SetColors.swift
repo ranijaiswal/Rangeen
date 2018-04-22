@@ -17,7 +17,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     var toWellsArray = [NSColorWell]()
     let defaults = DefaultsHandler()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -43,7 +42,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
-        
         // Do view setup here.
     }
     
@@ -81,6 +79,18 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     @IBAction func resetButtonPressed(sender: NSButton) {
+        let alert = NSAlert()
+        alert.messageText = "Are you sure?"
+        alert.addButton(withTitle: "Continue")
+        alert.addButton(withTitle: "Cancel")
+        alert.informativeText = "If you would like to remove your color selections, click Continue."
+        
+        if alert.runModal() == NSAlertFirstButtonReturn {
+            resetTable()
+        }
+        
+    }
+    func resetTable() {
         let numRows = defaults.getNumRows()
         for _ in 0..<numRows {
             tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .slideDown)
@@ -95,8 +105,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         tableView.insertRows(at: IndexSet(integer:0), withAnimation: .slideUp)
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
+
     }
-    
     func deletePressed(sender: NSButton) {
         // remove from wells arrays 
         let rowToDelete = tableView.row(for: sender)
