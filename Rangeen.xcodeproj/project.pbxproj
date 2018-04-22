@@ -15,6 +15,7 @@
 		19B36B732058D03C00AC95C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B36B712058D03C00AC95C8 /* Main.storyboard */; };
 		19B36B7E2058D03C00AC95C8 /* RangeenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B7D2058D03C00AC95C8 /* RangeenTests.swift */; };
 		19B36B892058D03C00AC95C8 /* RangeenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B882058D03C00AC95C8 /* RangeenUITests.swift */; };
+		19D0D700208C7A6F00B04273 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D0D6FF208C7A6F00B04273 /* Tutorial.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		19B36B842058D03C00AC95C8 /* RangeenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RangeenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19B36B882058D03C00AC95C8 /* RangeenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeenUITests.swift; sourceTree = "<group>"; };
 		19B36B8A2058D03C00AC95C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19D0D6FF208C7A6F00B04273 /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		19B36B6A2058D03C00AC95C8 /* Rangeen */ = {
 			isa = PBXGroup;
 			children = (
+				19D0D6FF208C7A6F00B04273 /* Tutorial.swift */,
 				19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */,
 				19878E27206DC0BA0056FE4E /* SetColors.swift */,
 				19A04508207F4A7F00FC17C8 /* DefaultsHandler.swift */,
@@ -265,6 +268,7 @@
 				19B36B6E2058D03C00AC95C8 /* ViewController.swift in Sources */,
 				19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */,
 				19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */,
+				19D0D700208C7A6F00B04273 /* Tutorial.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

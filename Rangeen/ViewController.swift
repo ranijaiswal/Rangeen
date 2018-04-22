@@ -17,10 +17,32 @@ class ViewController: NSViewController {
     var timerDict = [String:Double]()
     var currentTimer: Timer!
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
+    var fromWellsArray = [NSColorWell]()
+    var toWellsArray = [NSColorWell]()
     let defaults = DefaultsHandler()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // initialize from/to wells arrays either fresh or from user defaults
+        let savedFromDict = defaults.getFromArray()
+        let savedToDict = defaults.getToArray()
+        let numRows = defaults.getNumRows()
+        for i in 0..<numRows {
+            var wellFrom: NSColorWell
+            var wellTo: NSColorWell
+            if (savedFromDict == nil) {
+                wellFrom = getRedWell()
+                wellTo = getRedWell()
+            }
+            else {
+                wellFrom = (savedFromDict?[i])!
+                wellTo = (savedToDict?[i])!
+            }
+            fromWellsArray.append(wellFrom)
+            toWellsArray.append(wellTo)
+        }
+        defaults.setFromArray(data: fromWellsArray)
+        defaults.setToArray(data: toWellsArray)
 
         // Do any additional setup after loading the view.
     }
@@ -33,6 +55,12 @@ class ViewController: NSViewController {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+    
+    func getRedWell() -> NSColorWell {
+        let well = NSColorWell()
+        well.color = NSColor.red
+        return well
     }
     
     func configureTimer() {
