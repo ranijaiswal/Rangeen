@@ -22,31 +22,33 @@ class Tutorial: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
         setText(textToSet: welcomeText)
+        setButtons(1)
         progress?.doubleValue = 25
-        cont?.isHidden = false
-        back?.isHidden = true
-        text?.alignment = NSTextAlignment.center
     }
     
     @IBAction func continuePressed(sender: NSButton) {
         
         if let value = progress?.doubleValue {
+            if value == 100.0 {
+                self.dismiss(self)
+            }
             if value < 100.0 {
                 progress?.doubleValue += 25
             }
         }
         if (progress?.doubleValue == 50) {
             setText(textToSet: timerText)
-            back?.isHidden = false
+            setButtons(2)
         }
         
         else if (progress?.doubleValue == 75) {
             setText(textToSet: setColorsText)
+            setButtons(3)
         }
         
         else if (progress?.doubleValue == 100) {
             setText(textToSet: closingText)
-            cont?.isHidden = true
+            setButtons(4)
         }
     }
     
@@ -58,20 +60,41 @@ class Tutorial: NSViewController {
         }
         if (progress?.doubleValue == 75) {
             setText(textToSet: setColorsText)
-            cont?.isHidden = false
+            setButtons(3)
         }
         else if (progress?.doubleValue == 50) {
             setText(textToSet: timerText)
+            setButtons(2)
         }
         else if (progress?.doubleValue == 25) {
             setText(textToSet: welcomeText)
-            back?.isHidden = true
+            setButtons(1)
         }
     }
     func setText(textToSet: String) {
         let attributedString = NSAttributedString(string: textToSet, attributes: ["Color": NSColor.black])
         text?.placeholderAttributedString = attributedString
-
     }
-    
+    func setButtons(_ page: Int) {
+        if page == 1 {
+            cont?.isHidden = false
+            cont?.title = "Continue"
+            back?.isHidden = true
+        }
+        else if page == 2 {
+            cont?.isHidden = false
+            cont?.title = "Continue"
+            back?.isHidden = false
+        }
+        else if page == 3 {
+            cont?.isHidden = false
+            cont?.title = "Continue"
+            back?.isHidden = false
+        }
+        else if page == 4 {
+            cont?.isHidden = false
+            cont?.title = "Done"
+            back?.isHidden = false
+        }
+    }
 }
