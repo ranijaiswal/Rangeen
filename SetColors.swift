@@ -126,6 +126,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
         if tableColumn?.identifier == "Delete" {
             let deleteButton = NSButton()
+            deleteButton.bezelStyle = NSRoundedBezelStyle
             deleteButton.title = "x"
             deleteButton.action = #selector(self.deletePressed)
             cell.addSubview(deleteButton)
