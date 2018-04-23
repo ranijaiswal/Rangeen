@@ -126,9 +126,13 @@ class ViewController: NSViewController {
     func getAdjustment(hsv: (h : Float, s : Float, v : Float), colorPairs: [ColorPair]) -> (r: Float, g: Float, b: Float) {
         if colorPairs.count > 0 {
             for index in 0...(colorPairs.count - 1) {
-                let colorFrom = colorPairs[index].from
-                let colorTo = colorPairs[index].to
-
+                var colorFrom = colorPairs[index].from
+                var colorTo = colorPairs[index].to
+                
+                let colorSpace = NSColorSpace.deviceRGB
+                colorFrom = colorFrom.usingColorSpace(colorSpace)!
+                colorTo = colorTo.usingColorSpace(colorSpace)!
+                
                 var ptrFrom:CGFloat = 0.0
                 colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
                 let defaultHue = Float(ptrFrom)*360.0

@@ -9,7 +9,31 @@
 import Foundation
 import AppKit
 
-struct ColorPair {
-    let from: NSColor
-    let to: NSColor
+class ColorPair : NSObject, NSCoding {
+    var from: NSColor
+    var to: NSColor
+    
+    init(from: NSColor, to: NSColor) {
+        self.from = from
+        self.to = to
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        let colorSpace = NSColorSpace.deviceRGB
+        from = NSColor.blue
+        to = NSColor.red
+        from = from.usingColorSpace(colorSpace)!
+        to = to.usingColorSpace(colorSpace)!
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(to.redComponent, forKey: "toRed")
+        aCoder.encode(to.blueComponent, forKey: "toBlue")
+        aCoder.encode(to.greenComponent, forKey: "toGreen")
+        aCoder.encode(to.alphaComponent, forKey: "toAlpha")
+        aCoder.encode(from.redComponent, forKey: "fromRed")
+        aCoder.encode(from.blueComponent, forKey: "fromBlue")
+        aCoder.encode(from.greenComponent, forKey: "fromGreen")
+        aCoder.encode(from.alphaComponent, forKey: "fromAlpha")
+    }
 }
