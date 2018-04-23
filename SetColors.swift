@@ -13,10 +13,12 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var tableView: NSTableView!
     @IBOutlet var addRowsButton: NSButton!
     @IBOutlet var resetButton: NSButton!
+    @IBOutlet var cancelButton: NSButton!
     var fromWellsArray = [NSColorWell]()
     var toWellsArray = [NSColorWell]()
     let defaults = DefaultsHandler()
-
+    var fromWellsArrayCache = [NSColorWell]()
+    var toWellsArrayCache = [NSColorWell]()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -42,6 +44,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         defaults.setFromArray(data: fromWellsArray)
         defaults.setToArray(data: toWellsArray)
+        fromWellsArrayCache = fromWellsArray
+        toWellsArrayCache = toWellsArray
         // Do view setup here.
     }
     
@@ -65,6 +69,15 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     @IBAction func saveButtonPressed(sender: AnyObject) {
         saveColors()
+        dismissViewController(self)
+    }
+    
+    @IBAction func cancelButtonPressed(sender: AnyObject) {
+        fromWellsArray = fromWellsArrayCache
+        toWellsArray = toWellsArrayCache
+        defaults.setFromArray(data: fromWellsArray)
+        defaults.setToArray(data: toWellsArray)
+        tableView.reloadData()
         dismissViewController(self)
     }
     @IBAction func addRowPressed(sender: NSButton) {

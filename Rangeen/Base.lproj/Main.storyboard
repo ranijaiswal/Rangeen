@@ -960,7 +960,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tjg-6h-hNw">
-                                <rect key="frame" x="342" y="27" width="94" height="32"/>
+                                <rect key="frame" x="350" y="54" width="94" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add Row" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3wa-lR-TUw">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -970,10 +970,25 @@
                                     <action selector="addRowPressedWithSender:" target="DEB-cB-XZZ" id="A6b-O2-vZM"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cwu-hr-tsU">
+                                <rect key="frame" x="284" y="13" width="82" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ljy-Cw-Bev">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonPressedWithSender:" target="DEB-cB-XZZ" id="O1B-Fj-gTK"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="addRowsButton" destination="tjg-6h-hNw" id="DkC-XB-lVq"/>
+                        <outlet property="cancelButton" destination="Cwu-hr-tsU" id="CDo-ip-qxf"/>
                         <outlet property="resetButton" destination="u2R-6k-YJx" id="Hhm-6F-nmw"/>
                         <outlet property="saveButton" destination="osU-ZR-R4g" id="auO-f6-smu"/>
                         <outlet property="tableView" destination="dNY-Af-ryz" id="8ZU-sC-veI"/>
