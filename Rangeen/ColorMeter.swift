@@ -13,6 +13,7 @@ class ColorMeter: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        // https://stackoverflow.com/questions/11746471/detect-color-under-mouse-mac?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa 
      //   autoreleasepool {
             // Grab the current mouse location.
             let mouseLoc: NSPoint = NSEvent.mouseLocation()
