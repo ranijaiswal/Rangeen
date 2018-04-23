@@ -14,38 +14,32 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet var addRowsButton: NSButton!
     @IBOutlet var resetButton: NSButton!
     @IBOutlet var cancelButton: NSButton!
-    var fromWellsArray = [NSColorWell]()
-    var toWellsArray = [NSColorWell]()
+    
+    var colorPairArray = [ColorPair]()
     let defaults = DefaultsHandler()
-    var fromWellsArrayCache = [NSColorWell]()
-    var toWellsArrayCache = [NSColorWell]()
+    var colorPairArrayCache = [ColorPair]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
-        // initialize from/to wells arrays either fresh or from user defaults
-        let savedFromDict = defaults.getFromArray()
-        let savedToDict = defaults.getToArray()
+        // initialize colorPair arrays either fresh or from user defaults
+        
+        let savedColorPairs = defaults.getColorPairArray()
         let numRows = defaults.getNumRows()
         for i in 0..<numRows {
-            var wellFrom: NSColorWell
-            var wellTo: NSColorWell
-            if (savedFromDict == nil) {
-                wellFrom = getRedWell()
-                wellTo = getRedWell()
+            var colorPair: ColorPair
+            if (savedColorPairs == nil) {
+                colorPair = ColorPair(from: NSColor.red, to: NSColor.red)
             }
             else {
-                wellFrom = (savedFromDict?[i])!
-                wellTo = (savedToDict?[i])!
+                colorPair = (savedColorPairs?[i])!
             }
-            fromWellsArray.append(wellFrom)
-            toWellsArray.append(wellTo)
+            colorPairArray.append(colorPair)
         }
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
-        fromWellsArrayCache = fromWellsArray
-        toWellsArrayCache = toWellsArray
+        defaults.setColorPairArray(data: colorPairArray)
+        colorPairArrayCache = colorPairArray
         // Do view setup here.
     }
     
@@ -56,15 +50,10 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func saveColors() {
-        for (i, colorWell) in fromWellsArray.enumerated() {
-            var currentDict = defaults.getFromArray()
-            currentDict![i] = colorWell
-            defaults.setFromArray(data: currentDict!)
-        }
-        for (i, colorWell) in toWellsArray.enumerated() {
-            var currentDict = defaults.getToArray()
-            currentDict![i] = colorWell
-            defaults.setToArray(data: currentDict!)
+        for (i, color) in colorPairArray.enumerated() {
+            var currentPairs = defaults.getColorPairArray()
+            currentPairs?[i] = color
+            defaults.setColorPairArray(data: currentPairs!)
         }
     }
     @IBAction func saveButtonPressed(sender: AnyObject) {
@@ -81,10 +70,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         alert.informativeText = "Would you like to discard your changes and go back to your last saved color selections?"
         
         if alert.runModal() == NSAlertFirstButtonReturn {
-            fromWellsArray = fromWellsArrayCache
-            toWellsArray = toWellsArrayCache
-            defaults.setFromArray(data: fromWellsArray)
-            defaults.setToArray(data: toWellsArray)
+            colorPairArray = colorPairArrayCache
+            defaults.setColorPairArray(data: colorPairArray)
             tableView.reloadData()
             dismissViewController(self)
         }
@@ -92,10 +79,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     
     @IBAction func addRowPressed(sender: NSButton) {
         let numRows = defaults.getNumRows()
-        fromWellsArray.append(getRedWell())
-        toWellsArray.append(getRedWell())
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
+        colorPairArray.append(ColorPair(from: NSColor.red, to: NSColor.red))
+        defaults.setColorPairArray(data: colorPairArray)
         tableView.beginUpdates()
         tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .slideUp)
         tableView.endUpdates()
@@ -118,26 +103,16 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         for _ in 0..<numRows {
             tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .slideDown)
         }
-        fromWellsArray.removeAll()
-        toWellsArray.removeAll()
-        
-        let wellFrom = getRedWell()
-        let wellTo = getRedWell()
-        fromWellsArray.append(wellFrom)
-        toWellsArray.append(wellTo)
+        colorPairArray.removeAll()
+        colorPairArray.append(ColorPair(from: NSColor.red, to: NSColor.red))
         tableView.insertRows(at: IndexSet(integer:0), withAnimation: .slideUp)
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
-
+        defaults.setColorPairArray(data: colorPairArray)
     }
     func deletePressed(sender: NSButton) {
         // remove from wells arrays 
         let rowToDelete = tableView.row(for: sender)
-        fromWellsArray.remove(at: rowToDelete)
-        toWellsArray.remove(at: rowToDelete)
-
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
+        colorPairArray.remove(at: rowToDelete)
+        defaults.setColorPairArray(data: colorPairArray)
 
         tableView.beginUpdates()
         tableView.removeRows(at: IndexSet(integer: rowToDelete), withAnimation: .slideDown)
@@ -163,13 +138,15 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         
         else if tableColumn?.identifier == "From" || tableColumn?.identifier == "To" {
-            var well: NSColorWell = NSColorWell()
+            var color: NSColor = NSColor.red // dummy initialization
             if tableColumn?.identifier == "From" {
-                well = fromWellsArray[row]
+                color = colorPairArray[row].from
             }
             else if tableColumn?.identifier == "To" {
-                well = toWellsArray[row]
+                color = colorPairArray[row].to
             }
+            let well = NSColorWell()
+            well.color = color
             well.action = #selector(self.colorChanged)
             cell.addSubview(well)
             well.translatesAutoresizingMaskIntoConstraints = false
@@ -181,24 +158,24 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
                 ])
         }
         else if tableColumn?.identifier == "FromColor" {
-            let well = fromWellsArray[row]
+            let color = colorPairArray[row].from
             let newCell = tableView.view(atColumn: 1, row: row, makeIfNecessary: true)
             if newCell == nil {
-                setColorNameView(cell: cell, colorName: colorIn(well: well))
+                setColorNameView(cell: cell, colorName: NSColorToName(color: color))
             }
             else {
-                setColorNameView(cell: newCell!, colorName: colorIn(well: well))
+                setColorNameView(cell: newCell!, colorName: NSColorToName(color: color))
                 cell = newCell!
             }
         }
         else if tableColumn?.identifier == "ToColor" {
-            let well = toWellsArray[row]
+            let color = colorPairArray[row].to
             let newCell = tableView.view(atColumn: 3, row: row, makeIfNecessary: true)
             if newCell == nil {
-                setColorNameView(cell: cell, colorName: colorIn(well: well))
+                setColorNameView(cell: cell, colorName: NSColorToName(color: color))
             }
             else {
-                setColorNameView(cell: newCell!, colorName: colorIn(well: well))
+                setColorNameView(cell: newCell!, colorName: NSColorToName(color: color))
                 cell = newCell!
             }
         }
@@ -206,7 +183,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func colorChanged(sender: NSColorWell) {
-        let colorName = colorIn(well: sender)
+        let colorName = NSColorToName(color: sender.color)
         let row = tableView.row(for: sender)
         let col = tableView.column(for: sender)
         let cell = tableView.view(atColumn: col + 1, row: row, makeIfNecessary: true)!
@@ -226,8 +203,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             text.widthAnchor.constraint(equalToConstant: 50)
             ])
     }
-    func colorIn(well: NSColorWell) -> String {
-        let color = well.color
+    func NSColorToName(color: NSColor) -> String {
         var ptrFrom:CGFloat = 0.0
         color.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
         let centerHueAngle: Float = Float(ptrFrom)

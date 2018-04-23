@@ -17,32 +17,27 @@ class ViewController: NSViewController {
     var timerDict = [String:Double]()
     var currentTimer: Timer!
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
-    var fromWellsArray = [NSColorWell]()
-    var toWellsArray = [NSColorWell]()
+    var colorPairArray = [ColorPair]()
     let defaults = DefaultsHandler()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // initialize from/to wells arrays either fresh or from user defaults
-        let savedFromDict = defaults.getFromArray()
-        let savedToDict = defaults.getToArray()
+        // initialize colorPair arrays either fresh or from user defaults
+        
+        let savedColorPairs = defaults.getColorPairArray()
         let numRows = defaults.getNumRows()
         for i in 0..<numRows {
-            var wellFrom: NSColorWell
-            var wellTo: NSColorWell
-            if (savedFromDict == nil) {
-                wellFrom = getRedWell()
-                wellTo = getRedWell()
+            var colorPair: ColorPair
+            if (savedColorPairs == nil) {
+                colorPair = ColorPair(from: NSColor.red, to: NSColor.red)
             }
             else {
-                wellFrom = (savedFromDict?[i])!
-                wellTo = (savedToDict?[i])!
+                colorPair = (savedColorPairs?[i])!
             }
-            fromWellsArray.append(wellFrom)
-            toWellsArray.append(wellTo)
+            colorPairArray.append(colorPair)
         }
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
+        defaults.setColorPairArray(data: colorPairArray)
 
         // Do any additional setup after loading the view.
     }
@@ -128,11 +123,11 @@ class ViewController: NSViewController {
         imageDisplay.image = NSImage.init(cgImage: finalImage!, size: NSZeroSize)
     }
     
-    func getAdjustment(hsv: (h : Float, s : Float, v : Float), fromDict: [NSColorWell], toDict: [NSColorWell]) -> (r: Float, g: Float, b: Float) {
-        if fromDict.count > 0 {
-            for index in 0...(fromDict.count - 1) {
-                let colorFrom = fromDict[index].color
-                let colorTo = toDict[index].color
+    func getAdjustment(hsv: (h : Float, s : Float, v : Float), colorPairs: [ColorPair]) -> (r: Float, g: Float, b: Float) {
+        if colorPairs.count > 0 {
+            for index in 0...(colorPairs.count - 1) {
+                let colorFrom = colorPairs[index].from
+                let colorTo = colorPairs[index].to
 
                 var ptrFrom:CGFloat = 0.0
                 colorFrom.getHue(&ptrFrom, saturation: nil, brightness: nil, alpha: nil)
@@ -159,8 +154,7 @@ class ViewController: NSViewController {
     
     // if color preferences have changed, updates colorCubeFilter
     func updateColorCube() -> CIFilter {
-        let fromDict = defaults.getFromArray()
-        let toDict = defaults.getToArray()
+        let colorPairs = defaults.getColorPairArray()
         let size = 64
         var cubeData = [Float](repeating: 0, count: size * size * size * 4)
         var rgb: [Float] = [0, 0, 0]
@@ -173,7 +167,7 @@ class ViewController: NSViewController {
                 for x in 0 ..< size {
                     rgb[0] = Float(x) / Float(size) // red value
                     hsv = RGBtoHSV(rgb[0], g: rgb[1], b: rgb[2])
-                    let newRGB = getAdjustment(hsv: hsv, fromDict: fromDict!, toDict: toDict!)
+                    let newRGB = getAdjustment(hsv: hsv, colorPairs: colorPairs!)
                     cubeData[offset] = newRGB.r
                     cubeData[offset+1] = newRGB.g
                     cubeData[offset+2] = newRGB.b

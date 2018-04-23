@@ -9,34 +9,23 @@
 import Cocoa
 
 class DefaultsHandler {
-    func getFromArray() -> [NSColorWell]? {
-        let currentFromData = UserDefaults.standard.data(forKey: "fromWellsArray")
-        if currentFromData == nil {
+    
+    func getColorPairArray() -> [ColorPair]? {
+        let currentData = UserDefaults.standard.data(forKey: "colorPairArray")
+        if (currentData == nil) {
             return nil
         }
-        let currentFromDict = NSKeyedUnarchiver.unarchiveObject(with: currentFromData!) as? [NSColorWell]
-        return currentFromDict
-    }
-    func getToArray() -> [NSColorWell]? {
-        let currentToData = UserDefaults.standard.data(forKey: "toWellsArray")
-        if currentToData == nil {
-            return nil
-        }
-        let currentToDict = NSKeyedUnarchiver.unarchiveObject(with: currentToData!) as? [NSColorWell]
-        return currentToDict
+        let currentArray = NSKeyedUnarchiver.unarchiveObject(with: currentData!) as? [ColorPair]
+        return currentArray
     }
     
-    func setFromArray(data: [NSColorWell]) {
-        let fromData = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
-        UserDefaults.standard.set(fromData, forKey: "fromWellsArray")
-    }
-    func setToArray(data: [NSColorWell]) {
-        let toData = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
-        UserDefaults.standard.set(toData, forKey: "toWellsArray")
+    func setColorPairArray(data: [ColorPair]) {
+        let data = NSKeyedArchiver.archivedData(withRootObject: data) as NSData?
+        UserDefaults.standard.set(data, forKey: "colorPairArray")
     }
     
     func getNumRows() -> Int {
-        let from = getFromArray()
+        let from = getColorPairArray()
         if (from != nil) {
             return from!.count
         }
