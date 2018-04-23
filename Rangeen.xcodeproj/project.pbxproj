@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		19300BD3208D723A00132B62 /* ColorPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19300BD2208D723A00132B62 /* ColorPair.swift */; };
+		19300BD6208DCAF200132B62 /* ColorMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19300BD4208DCAF200132B62 /* ColorMeter.swift */; };
 		19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19878E27206DC0BA0056FE4E /* SetColors.swift */; };
 		19A04509207F4A7F00FC17C8 /* DefaultsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A04508207F4A7F00FC17C8 /* DefaultsHandler.swift */; };
 		19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		19300BD2208D723A00132B62 /* ColorPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPair.swift; sourceTree = "<group>"; };
+		19300BD4208DCAF200132B62 /* ColorMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMeter.swift; sourceTree = "<group>"; };
 		19878E27206DC0BA0056FE4E /* SetColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetColors.swift; path = ../SetColors.swift; sourceTree = "<group>"; };
 		19A04508207F4A7F00FC17C8 /* DefaultsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsHandler.swift; sourceTree = "<group>"; };
 		19B36B682058D03C00AC95C8 /* Rangeen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rangeen.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				19B36B6B2058D03C00AC95C8 /* AppDelegate.swift */,
 				19878E27206DC0BA0056FE4E /* SetColors.swift */,
 				19300BD2208D723A00132B62 /* ColorPair.swift */,
+				19300BD4208DCAF200132B62 /* ColorMeter.swift */,
 				19A04508207F4A7F00FC17C8 /* DefaultsHandler.swift */,
 				19B36B6D2058D03C00AC95C8 /* ViewController.swift */,
 				19B36B6F2058D03C00AC95C8 /* Assets.xcassets */,
@@ -270,6 +273,7 @@
 				19A04509207F4A7F00FC17C8 /* DefaultsHandler.swift in Sources */,
 				19B36B6E2058D03C00AC95C8 /* ViewController.swift in Sources */,
 				19878E28206DC0BA0056FE4E /* SetColors.swift in Sources */,
+				19300BD6208DCAF200132B62 /* ColorMeter.swift in Sources */,
 				19300BD3208D723A00132B62 /* ColorPair.swift in Sources */,
 				19B36B6C2058D03C00AC95C8 /* AppDelegate.swift in Sources */,
 				19D0D700208C7A6F00B04273 /* Tutorial.swift in Sources */,
