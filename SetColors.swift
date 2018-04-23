@@ -140,13 +140,13 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if tableColumn?.identifier == "Delete" {
             let deleteButton = NSButton()
             deleteButton.bezelStyle = NSRoundedBezelStyle
-            deleteButton.title = "x"
+            deleteButton.title = "Delete"
             deleteButton.action = #selector(self.deletePressed)
             cell.addSubview(deleteButton)
             deleteButton.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 deleteButton.heightAnchor.constraint(equalToConstant: 20),
-                deleteButton.widthAnchor.constraint(equalToConstant: 20),
+                deleteButton.widthAnchor.constraint(equalToConstant: 60),
                 deleteButton.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
                 deleteButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
                 ])
