@@ -19,7 +19,6 @@ class ViewController: NSViewController {
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
     var colorPairArray = [ColorPair]()
     let defaults = DefaultsHandler()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +40,6 @@ class ViewController: NSViewController {
         didSet {
         // Update the view, if already loaded.
         }
-    }
-    
-    func getRedWell() -> NSColorWell {
-        let well = NSColorWell()
-        well.color = NSColor.red
-        return well
     }
     
     func configureTimer() {

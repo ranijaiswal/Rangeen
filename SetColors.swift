@@ -35,12 +35,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         // Do view setup here.
     }
     
-    func getRedWell() -> NSColorWell {
-        let well = NSColorWell()
-        well.color = NSColor.red
-        return well
-    }
-    
     func saveColors() {
         defaults.setColorPairArray(data: colorPairArray)
     }
