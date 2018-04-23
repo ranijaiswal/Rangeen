@@ -25,19 +25,11 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         // initialize colorPair arrays either fresh or from user defaults
         
-        let savedColorPairs = defaults.getColorPairArray()
-        let numRows = savedColorPairs?.count
-        for i in 0..<numRows! {
-            var colorPair: ColorPair
-            if (savedColorPairs! == []) {
-                colorPair = ColorPair(from: NSColor.red, to: NSColor.red)
-            }
-            else {
-                colorPair = (savedColorPairs?[i])!
-            }
-            colorPairArray.append(colorPair)
+        if let savedPairs = defaults.getColorPairArray(), savedPairs.count > 0 {
+            colorPairArray = savedPairs
+        } else {
+            colorPairArray = [ColorPair(from: NSColor.red, to: NSColor.red)]
         }
-
         // Do any additional setup after loading the view.
     }
 
