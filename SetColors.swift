@@ -70,9 +70,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         alert.informativeText = "Would you like to discard your changes and go back to your last saved color selections?"
         
         if alert.runModal() == NSAlertFirstButtonReturn {
-            colorPairArray = colorPairArrayCache
-            defaults.setColorPairArray(data: colorPairArray)
-            tableView.reloadData()
             dismissViewController(self)
         }
     }
@@ -186,6 +183,14 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let colorName = NSColorToName(color: sender.color)
         let row = tableView.row(for: sender)
         let col = tableView.column(for: sender)
+        let currentPair = colorPairArray[row]
+        if col == 0 {
+            currentPair.from = sender.color
+        }
+        else if col == 2 {
+            currentPair.to = sender.color
+        }
+        colorPairArray[row] = currentPair
         let cell = tableView.view(atColumn: col + 1, row: row, makeIfNecessary: true)!
         setColorNameView(cell: cell, colorName: colorName)
     }

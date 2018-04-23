@@ -19,11 +19,22 @@ class ColorPair : NSObject, NSCoding {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        let colorSpace = NSColorSpace.deviceRGB
-        from = NSColor.blue
-        to = NSColor.red
-        from = from.usingColorSpace(colorSpace)!
-        to = to.usingColorSpace(colorSpace)!
+        if let red = aDecoder.decodeObject(forKey: "toRed") as? CGFloat,
+            let green = aDecoder.decodeObject(forKey: "toGreen") as? CGFloat,
+            let blue = aDecoder.decodeObject(forKey: "toBlue") as? CGFloat,
+            let alpha = aDecoder.decodeObject(forKey: "toAlpha") as? CGFloat {
+            to = NSColor(red: red, green: green, blue: blue, alpha: alpha)
+        } else {
+            return nil
+        }
+        if let red = aDecoder.decodeObject(forKey: "fromRed") as? CGFloat,
+            let green = aDecoder.decodeObject(forKey: "fromGreen") as? CGFloat,
+            let blue = aDecoder.decodeObject(forKey: "fromBlue") as? CGFloat,
+            let alpha = aDecoder.decodeObject(forKey: "fromAlpha") as? CGFloat {
+            from = NSColor(red: red, green: green, blue: blue, alpha: alpha)
+        } else {
+            return nil
+        }
     }
     
     func encode(with aCoder: NSCoder) {
