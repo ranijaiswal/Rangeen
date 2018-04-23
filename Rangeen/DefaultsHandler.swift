@@ -13,7 +13,7 @@ class DefaultsHandler {
     func getColorPairArray() -> [ColorPair]? {
         let currentData = UserDefaults.standard.data(forKey: "colorPairArray")
         if (currentData == nil) {
-            return nil
+            return []
         }
         let currentArray = NSKeyedUnarchiver.unarchiveObject(with: currentData!) as? [ColorPair]
         return currentArray

@@ -26,10 +26,10 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         // initialize colorPair arrays either fresh or from user defaults
         
         let savedColorPairs = defaults.getColorPairArray()
-        let numRows = defaults.getNumRows()
-        for i in 0..<numRows {
+        let numRows = savedColorPairs?.count
+        for i in 0..<numRows! {
             var colorPair: ColorPair
-            if (savedColorPairs == nil) {
+            if (savedColorPairs! == []) {
                 colorPair = ColorPair(from: NSColor.red, to: NSColor.red)
             }
             else {
