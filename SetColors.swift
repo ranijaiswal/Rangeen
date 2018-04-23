@@ -17,7 +17,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     
     var colorPairArray = [ColorPair]()
     let defaults = DefaultsHandler()
-    var colorPairArrayCache = [ColorPair]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +37,6 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             }
             colorPairArray.append(colorPair)
         }
-        defaults.setColorPairArray(data: colorPairArray)
-        colorPairArrayCache = colorPairArray
         // Do view setup here.
     }
     
@@ -50,11 +47,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func saveColors() {
-        for (i, color) in colorPairArray.enumerated() {
-            var currentPairs = defaults.getColorPairArray()
-            currentPairs?[i] = color
-            defaults.setColorPairArray(data: currentPairs!)
-        }
+        defaults.setColorPairArray(data: colorPairArray)
     }
     @IBAction func saveButtonPressed(sender: AnyObject) {
         saveColors()
@@ -75,9 +68,8 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     @IBAction func addRowPressed(sender: NSButton) {
-        let numRows = defaults.getNumRows()
+        let numRows = colorPairArray.count
         colorPairArray.append(ColorPair(from: NSColor.red, to: NSColor.red))
-        defaults.setColorPairArray(data: colorPairArray)
         tableView.beginUpdates()
         tableView.insertRows(at: IndexSet(integer: numRows), withAnimation: .slideUp)
         tableView.endUpdates()
@@ -96,21 +88,17 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
     }
     func resetTable() {
-        let numRows = defaults.getNumRows()
+        let numRows = colorPairArray.count
         for _ in 0..<numRows {
             tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .slideDown)
         }
         colorPairArray.removeAll()
         colorPairArray.append(ColorPair(from: NSColor.red, to: NSColor.red))
         tableView.insertRows(at: IndexSet(integer:0), withAnimation: .slideUp)
-        defaults.setColorPairArray(data: colorPairArray)
     }
     func deletePressed(sender: NSButton) {
-        // remove from wells arrays 
         let rowToDelete = tableView.row(for: sender)
         colorPairArray.remove(at: rowToDelete)
-        defaults.setColorPairArray(data: colorPairArray)
-
         tableView.beginUpdates()
         tableView.removeRows(at: IndexSet(integer: rowToDelete), withAnimation: .slideDown)
         tableView.endUpdates()
@@ -240,7 +228,7 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         return 30
     }
     func numberOfRows(in tableView: NSTableView) -> Int {
-        let num = defaults.getNumRows()
+        let num = colorPairArray.count
         return num
     }
 }
