@@ -855,7 +855,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="From" width="80" minWidth="40" maxWidth="1000" id="mdd-qc-cw1">
+                                                <tableColumn identifier="From" width="58" minWidth="40" maxWidth="1000" id="mdd-qc-cw1">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="From">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -868,7 +868,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="FromColor" width="80" minWidth="10" maxWidth="3.4028234663852886e+38" id="ORf-hV-UMx">
+                                                <tableColumn identifier="FromColor" width="86" minWidth="10" maxWidth="3.4028234663852886e+38" id="ORf-hV-UMx">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -881,7 +881,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="To" width="80" minWidth="40" maxWidth="1000" id="2Sj-cq-QJR">
+                                                <tableColumn identifier="To" width="59" minWidth="40" maxWidth="1000" id="2Sj-cq-QJR">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="To">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -938,7 +938,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="osU-ZR-R4g">
-                                <rect key="frame" x="153" y="-5" width="144" height="42"/>
+                                <rect key="frame" x="153" y="-5" width="144" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Apply Changes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOP-zf-IfH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
