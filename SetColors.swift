@@ -73,13 +73,23 @@ class SetColors: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     @IBAction func cancelButtonPressed(sender: AnyObject) {
-        fromWellsArray = fromWellsArrayCache
-        toWellsArray = toWellsArrayCache
-        defaults.setFromArray(data: fromWellsArray)
-        defaults.setToArray(data: toWellsArray)
-        tableView.reloadData()
-        dismissViewController(self)
+        
+        let alert = NSAlert()
+        alert.messageText = "Are you sure?"
+        alert.addButton(withTitle: "Yes")
+        alert.addButton(withTitle: "No")
+        alert.informativeText = "Would you like to discard your changes and go back to your last saved color selections?"
+        
+        if alert.runModal() == NSAlertFirstButtonReturn {
+            fromWellsArray = fromWellsArrayCache
+            toWellsArray = toWellsArrayCache
+            defaults.setFromArray(data: fromWellsArray)
+            defaults.setToArray(data: toWellsArray)
+            tableView.reloadData()
+            dismissViewController(self)
+        }
     }
+    
     @IBAction func addRowPressed(sender: NSButton) {
         let numRows = defaults.getNumRows()
         fromWellsArray.append(getRedWell())
