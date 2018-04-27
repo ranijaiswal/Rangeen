@@ -744,6 +744,17 @@
                                     <segue destination="zjp-Uk-EYd" kind="popover" popoverAnchorView="iLa-rr-vAV" popoverBehavior="t" preferredEdge="maxY" id="I2L-Th-Lss"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4gY-j4-v6q">
+                                <rect key="frame" x="381" y="284" width="66" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xHv-Pb-R45">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="testClickedWithSender:" target="XfG-lQ-9wD" id="ldo-5U-Tql"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Dvp-pm-3qn" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="8Xb-vO-tzS"/>
@@ -759,6 +770,7 @@
                     <connections>
                         <outlet property="imageDisplay" destination="hXk-B1-fDk" id="Z02-5b-ODp"/>
                         <outlet property="photoButton" destination="0sF-C4-iLJ" id="Pgi-hK-1Sh"/>
+                        <outlet property="testClick" destination="4gY-j4-v6q" id="5CI-Zy-mlQ"/>
                         <outlet property="timerSecPicker" destination="ZfS-8c-tCA" id="poC-45-fu1"/>
                     </connections>
                 </viewController>

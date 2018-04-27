@@ -14,6 +14,8 @@ class ViewController: NSViewController {
     @IBOutlet var photoButton: NSButtonCell!
     @IBOutlet var imageDisplay: NSImageCell!
     @IBOutlet var timerSecPicker: NSPopUpButton!
+    @IBOutlet var testClick: NSButton!
+    
     var timerDict = [String:Double]()
     var currentTimer: Timer!
     var hueRange: Float = 60 //hue angle that we want to replace from TMReplaceColorHue
@@ -41,7 +43,27 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
+    @IBAction func testClicked(sender: NSButton) {
+        let posx: CGFloat = 200
+        let posy: CGFloat = 200
+        
+        // Move to posxXposy
+   //     let move1: CGEvent = CGEvent(mouseEventSource: nil, mouseType: CGEventType.mouseMoved, mouseCursorPosition: CGPoint(x: posx, y: posy), mouseButton: CGMouseButton.left)!
+    //    move1.post(tap: CGEventTapLocation.cghidEventTap)
     
+        // Left button down at posxXposy
+        let click1_down: CGEvent = CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseDown, mouseCursorPosition: CGPoint(x: posx, y: posy), mouseButton: CGMouseButton.left)!
+        
+        // Left button up at posxXposy
+        let click1_up: CGEvent = CGEvent(mouseEventSource: nil, mouseType: CGEventType.leftMouseUp, mouseCursorPosition: CGPoint(x: posx, y: posy), mouseButton: CGMouseButton.left)!
+        click1_down.post(tap: CGEventTapLocation.cghidEventTap)
+        click1_up.post(tap: CGEventTapLocation.cghidEventTap)
+        click1_down.post(tap: CGEventTapLocation.cghidEventTap)
+        click1_up.post(tap: CGEventTapLocation.cghidEventTap)
+        NSApp.activate(ignoringOtherApps: true)
+        self.view.window!.makeKeyAndOrderFront(self)
+        
+    }
     func configureTimer() {
         timerSecPicker.removeAllItems()
         timerSecPicker.addItem(withTitle: "1 sec")
